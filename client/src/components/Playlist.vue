@@ -68,12 +68,6 @@ export default {
         EventBus.$emit('logged-in', 'loggedin')
       }, 1000)
     },
-    // in testung
-    emitLoggedOutMethod: function () {
-      setTimeout(function () {
-        EventBus.$emit('logged-in', '')
-      }, 1000)
-    },
     getUserData: function () {
       let self = this
       axios.get('/api/user')
@@ -82,7 +76,6 @@ export default {
         })
         .catch((errors) => {
           console.log(errors)
-          self.emitLoggedOutMethod()
           router.push('/login')
         })
     },

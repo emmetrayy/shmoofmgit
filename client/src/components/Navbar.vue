@@ -49,6 +49,18 @@ export default {
     // gibt den logged out status an die relevanten componenten weiter
     emitLoggedOutMethod: function () {
       EventBus.$emit('logged-in', '')
+    },
+    getUserData: function () {
+      let self = this
+      axios.get('/api/user')
+        .then((response) => {
+          self.$set(this, 'user', response.data.user)
+        })
+        .catch((errors) => {
+          console.log(errors)
+          self.auth = ''
+          router.push('/login')
+        })
     }
   },
   mounted () {

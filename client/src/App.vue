@@ -7,6 +7,7 @@
     <hr class="hideonmobile">
     <Player v-if="auth=='loggedin'" />
     <Copyright />
+    <div>test {{auth}} test</div>
   </div>
 </template>
 
@@ -28,7 +29,22 @@ export default {
       auth: ''
     }
   },
+  methods: {
+    getUserData: function () {
+      let self = this
+      axios.get('/api/user')
+        .then((response) => {
+          self.$set(this, 'user', response.data.user)
+        })
+        .catch((errors) => {
+          console.log(errors)
+          self.auth = ''
+          router.push('/login')
+        })
+    }
+  },
   mounted () {
+    this.getUserData()
     EventBus.$on('logged-in', status => {
       this.auth = status
     })

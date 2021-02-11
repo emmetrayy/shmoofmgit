@@ -50,6 +50,7 @@ export default {
     emitLoggedOutMethod: function () {
       EventBus.$emit('logged-in', '')
     },
+      /*
     getUserData: function () {
       let self = this
       axios.get('/api/user')
@@ -62,6 +63,7 @@ export default {
           router.push('/login')
         })
     }
+    */
   },
   mounted () {
     // hört auf den logged in event bus

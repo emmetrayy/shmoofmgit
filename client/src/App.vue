@@ -1,21 +1,23 @@
 <template>
   <div id="app">
     <Navbar class="navcontainer"></Navbar>
-    <router-view/>
+    <router-view :userdataprop="user"/>
     <br>
     <br>
     <hr class="hideonmobile">
     <Player v-if="auth=='loggedin'" />
     <Copyright />
-    <div>test {{auth}} test</div>
+    <div>test {{auth}} test</div> <!--nur zum testen, kann man löschen ohne was anderes dadurch zu gefährden-->
   </div>
 </template>
 
 <script>
+import router from './router'
+import axios from 'axios'
+import EventBus from './components/EventBus'
 import Navbar from '@/components/Navbar'
 import Player from '@/components/Player'
 import Copyright from '@/components/Copyright'
-import EventBus from './components/EventBus'
 
 export default {
   name: 'App',
@@ -26,12 +28,19 @@ export default {
   },
   data () {
     return {
-      auth: ''
+      auth: '',
+      user: {},
+      userdataprop: ''
     }
   },
   methods: {
+    // gibt den logged out status an die relevanten componenten weiter - wird gebraucht für den fall dass es beim userdata laden eines error gibt und alle relevanten componenten das leere auth objekt kriegen und somit nicht angezeigt werden und nur die login komponente angezeigt wird zu der gepusht wird
+    emitLoggedOutMethod: function () {
+      EventBus.$emit('logged-in', '')
+    },
     getUserData: function () {
       let self = this
+      console.log(this.auth)
       axios.get('/api/user')
         .then((response) => {
           self.$set(this, 'user', response.data.user)
@@ -39,15 +48,21 @@ export default {
         .catch((errors) => {
           console.log(errors)
           self.auth = ''
+          self.emitLoggedOutMethod()
           router.push('/login')
         })
     }
   },
   mounted () {
+    var that = this
     this.getUserData()
     EventBus.$on('logged-in', status => {
       this.auth = status
     })
+    EventBus.$on('loadUserData',
+      function () {
+        that.getUserData()
+      })
   }
 }
 </script>

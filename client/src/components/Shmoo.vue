@@ -30,32 +30,17 @@ export default {
   name: 'Shmoo',
   data () {
     return {
-      user: {
-        id: '',
-        username: '',
-        shmoo: []
-      },
       selectedShmoo: '',
       search: '',
       isHovering: false
     }
   },
+  props: ['userdataprop'],
   methods: {
     emitLoggedInMethod: function () {
       setTimeout(function () {
         EventBus.$emit('logged-in', 'loggedin')
       }, 1000)
-    },
-    getUserData: function () {
-      let self = this
-      axios.get('/api/user')
-        .then((response) => {
-          self.$set(this, 'user', response.data.user)
-        })
-        .catch((errors) => {
-          console.log(errors)
-          router.push('/login')
-        })
     },
     selectShmooElement: function (event, x) {
       this.selectedShmoo = x
@@ -81,19 +66,13 @@ export default {
   },
   computed: {
     filteredShmoo: function () {
-      return this.user.shmoo.filter((x) => {
+      return this.userdataprop.shmoo.filter((x) => {
         return x.toLowerCase().match(this.search.toLowerCase())
       })
     }
   },
   mounted () {
-    var that = this
-    this.getUserData()
     this.emitLoggedInMethod()
-    EventBus.$on('loadUserData',
-      function () {
-        that.getUserData()
-      })
   }
 }
 </script>

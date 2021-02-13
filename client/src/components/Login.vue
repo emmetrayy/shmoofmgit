@@ -23,6 +23,14 @@ export default {
     }
   },
   methods: {
+    // gibt den logged in status an die relevanten componenten weiter
+    emitLoggedInMethod: function () {
+      EventBus.$emit('logged-in', 'loggedin')
+    },
+    // nach dem login muss er die userdaten in App.vue reinladen
+    emitLoadUserDataOnOtherComponents: function () {
+      EventBus.$emit('loadUserData')
+    },
     // logged den user im backend ein und aktiviert emitLoggedInMethod
     login (e) {
       e.preventDefault()
@@ -36,6 +44,7 @@ export default {
         axios.post('/api/login', data)
           .then((response) => {
             this.emitLoggedInMethod()
+            this.emitLoadUserDataOnOtherComponents()
             console.log('Logged in')
             router.push('/profile')
           })
@@ -45,10 +54,6 @@ export default {
           })
       }
       login()
-    },
-    // gibt den logged in status an die relevanten componenten weiter
-    emitLoggedInMethod: function () {
-      EventBus.$emit('logged-in', 'loggedin')
     }
   }
 }

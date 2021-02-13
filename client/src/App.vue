@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar class="navcontainer"></Navbar>
-    <router-view :userdataprop="user"/>
+    <router-view />
     <br>
     <br>
     <hr class="hideonmobile">
@@ -29,8 +29,7 @@ export default {
   data () {
     return {
       auth: '',
-      user: {},
-      userdataprop: ''
+      user: {}
     }
   },
   methods: {
@@ -38,12 +37,23 @@ export default {
     emitLoggedOutMethod: function () {
       EventBus.$emit('logged-in', '')
     },
+    emitPassUserData: function () {
+      var data = this.user
+      console.log(data)
+      var that = this
+      setTimeout(function () {
+        console.log('emitPassUserData fired on App.vue')
+        EventBus.$emit('passUserData', data)
+      }, 300)
+    },
     getUserData: function () {
       let self = this
       console.log(this.auth)
       axios.get('/api/user')
         .then((response) => {
           self.$set(this, 'user', response.data.user)
+          console.log('API CALL FOR USER DATA')
+          this.emitPassUserData()
         })
         .catch((errors) => {
           console.log(errors)
@@ -54,14 +64,18 @@ export default {
     }
   },
   mounted () {
+    console.log('App.vue mounted')
     var that = this
-    this.getUserData()
     EventBus.$on('logged-in', status => {
       this.auth = status
     })
     EventBus.$on('loadUserData',
       function () {
         that.getUserData()
+      })
+    EventBus.$on('requestData',
+      function () {
+        that.emitPassUserData()
       })
   }
 }

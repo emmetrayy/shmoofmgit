@@ -122,7 +122,8 @@ export default {
       }, 1000)
     },
     // greift beim laden der seite alle relevanten userdaten ab
-    getUserData: function () {
+    /*
+      getUserData: function () {
       let self = this
       axios.get('/api/user')
         .then((response) => {
@@ -132,6 +133,17 @@ export default {
           console.log(errors)
           router.push('/login')
         })
+    },
+    */
+    emitRequestData: function () {
+      var that = this
+      setTimeout(function () {
+        EventBus.$emit('requestData')
+        console.log('emitRequestData on profile component fired')
+      }, 300)
+    },
+    emitLoadUserDataOnOtherComponents: function () {
+      EventBus.$emit('loadUserData')
     },
     // greift beim laden der seite die verfügbaren channels ab
     getRadioData: function () {
@@ -149,6 +161,7 @@ export default {
     },
     // edit Email funktion
     editEmail: (e) => {
+      var that = this
       e.preventDefault()
       let newEmail = e.target.elements.email.value
       let changeEmail = () => {
@@ -166,7 +179,8 @@ export default {
       changeEmail()
       setTimeout(function () {
         location.reload()
-      }, 1000)
+      }, 300)
+      
     },
     // auswahl ob channelswitch oder playlistswitch
     editMode: function () {
@@ -188,8 +202,8 @@ export default {
       selectMode()
       var that = this
       setTimeout(function () {
-        that.reloadPage()
-      }, 1000)
+        location.reload()
+      }, 300)
     },
     filteredChannels: function () {
       this.filteredchannels = []
@@ -273,9 +287,19 @@ export default {
     }
   },
   mounted () {
-    this.getUserData()
+    console.log('profile mounted')
+    var that = this
+    //this.getUserData()
     this.getRadioData()
     this.emitLoggedInMethod()
+    this.emitRequestData()
+    EventBus.$on('passUserData', (data) => {
+      that.user = data
+    })
+    window.addEventListener('load', function() {
+      that.emitLoadUserDataOnOtherComponents()
+      that.emitRequestData()
+    })
   }
 }
 </script>

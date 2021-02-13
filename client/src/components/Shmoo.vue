@@ -30,17 +30,29 @@ export default {
   name: 'Shmoo',
   data () {
     return {
+      user: {
+        shmoo: []
+      },
       selectedShmoo: '',
       search: '',
       isHovering: false
     }
   },
-  props: ['userdataprop'],
   methods: {
     emitLoggedInMethod: function () {
       setTimeout(function () {
         EventBus.$emit('logged-in', 'loggedin')
       }, 1000)
+    },
+    emitRequestData: function () {
+      var that = this
+      setTimeout(function () {
+        EventBus.$emit('requestData')
+        console.log('emitRequestData on shmoo component fired')
+      }, 300)
+    },
+    emitLoadUserDataOnOtherComponents: function () {
+      EventBus.$emit('loadUserData')
     },
     selectShmooElement: function (event, x) {
       this.selectedShmoo = x
@@ -61,18 +73,29 @@ export default {
           })
       }
       submitRemoveShmoo()
-      window.location.reload()
+      this.emitLoadUserDataOnOtherComponents()
+      this.emitRequestData()
     }
   },
   computed: {
     filteredShmoo: function () {
-      return this.userdataprop.shmoo.filter((x) => {
+      return this.user.shmoo.filter((x) => {
         return x.toLowerCase().match(this.search.toLowerCase())
       })
     }
   },
   mounted () {
+    var that = this
+    console.log('shmoo mounted')
     this.emitLoggedInMethod()
+    this.emitRequestData()
+    EventBus.$on('passUserData', (data) => {
+      that.user = data
+    })
+    window.addEventListener('load', function() {
+      that.emitLoadUserDataOnOtherComponents()
+      that.emitRequestData()
+    })
   }
 }
 </script>

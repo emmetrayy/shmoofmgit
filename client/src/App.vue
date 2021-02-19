@@ -7,7 +7,6 @@
     <hr class="hideonmobile">
     <Player v-if="auth=='loggedin'" />
     <Copyright />
-    <div>test {{auth}} test</div> <!--nur zum testen, kann man löschen ohne was anderes dadurch zu gefährden-->
   </div>
 </template>
 
@@ -40,7 +39,6 @@ export default {
     emitPassUserData: function () {
       var data = this.user
       console.log(data)
-      var that = this
       setTimeout(function () {
         console.log('emitPassUserData fired on App.vue')
         EventBus.$emit('passUserData', data)
@@ -76,6 +74,15 @@ export default {
     EventBus.$on('requestData',
       function () {
         that.emitPassUserData()
+      })
+    EventBus.$on('loadPlayer',
+      function () {
+        setTimeout(function () {
+          console.log('load player emit received on App.vue')
+          that.emitPassUserData()
+        }, 2500)
+        // console.log('load player emit received on App.vue')
+        // that.reloadPage()
       })
   }
 }

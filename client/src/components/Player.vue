@@ -99,21 +99,15 @@ export default {
     }
   },
   methods: {
+    emitRequestData: function () {
+      setTimeout(function () {
+        EventBus.$emit('requestData')
+        console.log('emitRequestData on shmoo component fired')
+      }, 300)
+    },
     // wenn ein lied geshmooed wird, aktiviert diese funktion die userdata funktion in der shmoo component damit dort der shmoo gleich aktualisiert wird
     emitLoadUserDataOnOtherComponents: function () {
       EventBus.$emit('loadUserData')
-    },
-    // greift beim laden der seite alle relevanten userdaten ab
-    getUserData: function () {
-      let self = this
-      axios.get('/api/user')
-        .then((response) => {
-          self.$set(this, 'user', response.data.user)
-        })
-        .catch((errors) => {
-          console.log(errors)
-          router.push('/login')
-        })
     },
     // wird von update() aktiviert und greift alle x sekunden die meta daten für now playing von shoutcast ab
     getNowPlayingMetaDataDirectlyFromFrontend: async function () {
@@ -445,12 +439,20 @@ export default {
     }
   },
   mounted () {
-    this.getUserData()
+    var that = this
+    console.log('player mounted')
     this.getSecureContent()
     this.setPrimaryChannelSRC()
     this.setAlternativeChannelSRC()
     this.update()
     this.alertCheck()
+    EventBus.$on('passUserData', (data) => {
+      that.user = data
+    })
+    window.addEventListener('load', function () {
+      that.emitLoadUserDataOnOtherComponents()
+      that.emitRequestData()
+    })
   }
 }
 </script>

@@ -68,16 +68,18 @@ export default {
         EventBus.$emit('logged-in', 'loggedin')
       }, 1000)
     },
-    getUserData: function () {
-      let self = this
-      axios.get('/api/user')
-        .then((response) => {
-          self.$set(this, 'user', response.data.user)
-        })
-        .catch((errors) => {
-          console.log(errors)
-          router.push('/login')
-        })
+    emitRequestData: function () {
+      setTimeout(function () {
+        EventBus.$emit('requestData')
+        console.log('emitRequestData on playlist component fired')
+      }, 300)
+    },
+    emitLoadUserDataOnOtherComponents: function () {
+      EventBus.$emit('loadUserData')
+    },
+    emitReloadPlayerOnAppVue: function () {
+      EventBus.$emit('loadPlayer')
+      console.log('reload player emitted from playlist')
     },
     selectFile () {
       const file = this.$refs.file.files[0]
@@ -138,8 +140,18 @@ export default {
     }
   },
   mounted () {
-    this.getUserData()
+    var that = this
+    console.log('playlist mounted')
+    this.emitRequestData()
     this.emitLoggedInMethod()
+    EventBus.$on('passUserData', (data) => {
+      that.user = data
+    })
+    window.addEventListener('load', function () {
+      that.emitLoadUserDataOnOtherComponents()
+      that.emitRequestData()
+      that.emitReloadPlayerOnAppVue()
+    })
   }
 }
 </script>

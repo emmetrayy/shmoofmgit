@@ -45,7 +45,6 @@ export default {
       }, 1000)
     },
     emitRequestData: function () {
-      var that = this
       setTimeout(function () {
         EventBus.$emit('requestData')
         console.log('emitRequestData on shmoo component fired')
@@ -53,6 +52,10 @@ export default {
     },
     emitLoadUserDataOnOtherComponents: function () {
       EventBus.$emit('loadUserData')
+    },
+    emitReloadPlayerOnAppVue: function () {
+      EventBus.$emit('loadPlayer')
+      console.log('reload player emitted from shmoo')
     },
     selectShmooElement: function (event, x) {
       this.selectedShmoo = x
@@ -92,9 +95,10 @@ export default {
     EventBus.$on('passUserData', (data) => {
       that.user = data
     })
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       that.emitLoadUserDataOnOtherComponents()
       that.emitRequestData()
+      that.emitReloadPlayerOnAppVue()
     })
   }
 }

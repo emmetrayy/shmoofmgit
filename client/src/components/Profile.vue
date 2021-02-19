@@ -121,22 +121,7 @@ export default {
         EventBus.$emit('logged-in', 'loggedin')
       }, 1000)
     },
-    // greift beim laden der seite alle relevanten userdaten ab
-    /*
-      getUserData: function () {
-      let self = this
-      axios.get('/api/user')
-        .then((response) => {
-          self.$set(this, 'user', response.data.user)
-        })
-        .catch((errors) => {
-          console.log(errors)
-          router.push('/login')
-        })
-    },
-    */
     emitRequestData: function () {
-      var that = this
       setTimeout(function () {
         EventBus.$emit('requestData')
         console.log('emitRequestData on profile component fired')
@@ -144,6 +129,10 @@ export default {
     },
     emitLoadUserDataOnOtherComponents: function () {
       EventBus.$emit('loadUserData')
+    },
+    emitReloadPlayerOnAppVue: function () {
+      EventBus.$emit('loadPlayer')
+      console.log('reload player emitted from profile')
     },
     // greift beim laden der seite die verfügbaren channels ab
     getRadioData: function () {
@@ -161,7 +150,6 @@ export default {
     },
     // edit Email funktion
     editEmail: (e) => {
-      var that = this
       e.preventDefault()
       let newEmail = e.target.elements.email.value
       let changeEmail = () => {
@@ -180,7 +168,6 @@ export default {
       setTimeout(function () {
         location.reload()
       }, 300)
-      
     },
     // auswahl ob channelswitch oder playlistswitch
     editMode: function () {
@@ -200,7 +187,6 @@ export default {
           })
       }
       selectMode()
-      var that = this
       setTimeout(function () {
         location.reload()
       }, 300)
@@ -289,16 +275,16 @@ export default {
   mounted () {
     console.log('profile mounted')
     var that = this
-    //this.getUserData()
     this.getRadioData()
     this.emitLoggedInMethod()
     this.emitRequestData()
     EventBus.$on('passUserData', (data) => {
       that.user = data
     })
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       that.emitLoadUserDataOnOtherComponents()
       that.emitRequestData()
+      that.emitReloadPlayerOnAppVue()
     })
   }
 }

@@ -321,7 +321,81 @@ app.get("/api/securecontent", (req, res) => {
 });
 
 
-
-app.listen(3000, () => {  
+// >var server = < ist neu weil man die variable für socket braucht
+var server = app.listen(3000, () => {  
   console.log("App listening on port 3000")
 })
+
+
+// socket
+var socket = require('socket.io');
+
+let chatusers = [];
+let messages = [];
+
+var io = socket(server, {
+  cors: {
+    origin: "http://127.0.0.1:8080",
+    methods: ["GET", "POST"]
+  }
+});
+
+/* alt
+io.sockets.on('connection', newConnection);
+
+function newConnection(socket) {
+  console.log(socket);
+}
+*/
+
+const ChatSchema = mongoose.Schema({
+	chatusername: String,
+	msg: String
+});
+
+const ChatModel = mongoose.model("chat", ChatSchema);
+
+ChatModel.find((err, result) => {
+	if (err) throw err;
+
+	messages = result;
+});
+
+io.on("connection", socket => {
+	socket.emit('loggedIn', {
+		chatusers: chatusers.map(s => s.chatusername),
+		messages: messages
+	});
+
+	socket.on('newuser', chatusername => {
+		console.log(`${chatusername} has arrived at the party.`);
+		socket.chatusername = chatusername;
+		
+		chatusers.push(socket);
+
+		io.emit('userOnline', socket.chatusername);
+	});
+
+	socket.on('msg', msg => {
+		let message = new ChatModel({
+			chatusername: socket.chatusername,
+			msg: msg
+		});
+
+		message.save((err, result) => {
+			if (err) throw err;
+
+			messages.push(result);
+
+			io.emit('msg', result);
+		});
+	});
+	
+	// Disconnect
+	socket.on("disconnect", () => {
+		console.log(`${socket.chatusername} has left the party.`);
+		io.emit("userLeft", socket.chatusername);
+		chatusers.splice(chatusers.indexOf(socket), 1);
+	});
+});
+

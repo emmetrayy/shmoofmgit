@@ -5,7 +5,15 @@
     <br>
     <br>
     <hr class="hideonmobile">
-    <Player v-if="auth=='loggedin'" />
+    <!-- socket chat -->
+    <div class="header">
+			<h1>Chatroom</h1>
+			<p class="username">Username: {{ chatusername }}</p>
+			<p class="online">Online: {{ chatusers.length }}</p>
+		</div>
+    <!-- bis hier -->
+    <!-- v-bind:messages="messages" v-on:sendMessage="this.sendMessage" ist neu wegen socket chatroom -->
+    <Player v-if="auth=='loggedin'" v-bind:messages="messages" v-on:sendMessage="this.sendMessage"  />
     <Copyright />
   </div>
 </template>
@@ -13,6 +21,7 @@
 <script>
 import router from './router'
 import axios from 'axios'
+import io from 'socket.io-client'
 import EventBus from './components/EventBus'
 import Navbar from '@/components/Navbar'
 import Player from '@/components/Player'
@@ -28,7 +37,11 @@ export default {
   data () {
     return {
       auth: '',
-      user: {}
+      user: {},
+      socket: io('http://127.0.0.1:3000'),
+      chatusername: "", // kopiert aus socket chatroom git
+      messages: [], // kopiert aus socket chatroom git
+			chatusers: [] // kopiert aus socket chatroom git
     }
   },
   methods: {
@@ -59,7 +72,30 @@ export default {
           self.emitLoggedOutMethod()
           router.push('/login')
         })
-    }
+    },
+    // die restlichen 3 methods sind kopiert aus socket chatroom git
+    joinServer: function () {
+			this.socket.on('loggedIn', data => {
+				this.messages = data.messages;
+				this.chatusers = data.chatusers;
+				this.socket.emit('newuser', this.chatusername);
+			});
+			this.listen();
+		},
+		listen: function () {
+			this.socket.on('userOnline', chatuser => {
+				this.chatusers.push(chatuser);
+			});
+			this.socket.on('userLeft', chatuser => {
+				this.chatusers.splice(this.chatusers.indexOf(chatuser), 1);
+			});
+			this.socket.on('msg', message => {
+				this.messages.push(message);
+			});
+		},
+		sendMessage: function (message) {
+			this.socket.emit('msg', message);
+		}
   },
   mounted () {
     console.log('App.vue mounted')
@@ -84,6 +120,13 @@ export default {
         // console.log('load player emit received on App.vue')
         // that.reloadPage()
       })
+    // kopiert aus socket chatroom git
+    this.chatusername = prompt("What is your username?", "Anonymous");
+		if (!this.chatusername) {
+			this.chatusername = "Anonymous";
+		}
+		this.joinServer();
+    // bis hierher
   }
 }
 </script>

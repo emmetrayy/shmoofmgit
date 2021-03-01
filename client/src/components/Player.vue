@@ -63,11 +63,13 @@
         <br>
         <br>
         <!-- socket chat -->
-        <div class="chat-window">
-          <div class="messages">
+        <div>
+          <div class="chatwindow">
             <div class="message" v-for="message in messages" v-bind:key="message._id">
-              <div class="username">{{message.chatusername}}</div>
-              <div class="message-text">{{message.msg}}</div>
+              <div class="chat">
+                <div class="chatuser">{{message.chatusername}}:</div> 
+                <div class="chatmessage"> {{message.msg}}</div> 
+              </div>
             </div>
           </div>
           <form class="input-container" v-on:submit="sendMessage">
@@ -546,6 +548,30 @@ export default {
         width: 80%;
         background-color: whitesmoke;
     }
+  .chatwindow{
+    border-style: solid;
+    border-color: black;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: cadetblue
+  }
+  .chat {
+    text-align: left;
+    margin-left: 10px;
+    background-color: whitesmoke;
+    margin: 5px;
+    border-style: ridge;
+    border-width: 2px;
+  }
+  .chatuser{
+    margin-left: 3px;
+    color: darkblue;
+    display: inline;
+  }
+  .chatmessage{
+    display: inline;
+    margin-left: 5px;
+  }
 
 @media (max-width: 500px) {
     .playbutton {

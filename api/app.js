@@ -362,12 +362,25 @@ ChatModel.find((err, result) => {
 });
 
 io.on("connection", socket => {
+  console.log('socket connected')
+  /*
 	socket.emit('loggedIn', {
 		chatusers: chatusers.map(s => s.chatusername),
 		messages: messages
 	});
-
+  */
+  
+  socket.on('testa', chatusername => {
+    console.log('in testa');
+    socket.emit('loggedIn', {
+      chatusers: chatusers.map(s => s.chatusername),
+      messages: messages
+    });
+	});
+  
+  
 	socket.on('newuser', chatusername => {
+    console.log('in newuser');
 		console.log(`${chatusername} has arrived at the party.`);
 		socket.chatusername = chatusername;
 		

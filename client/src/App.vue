@@ -5,6 +5,8 @@
     <br>
     <br>
     <hr class="hideonmobile">
+    <!-- v-bind:messages="messages" v-on:sendMessage="this.sendMessage" ist neu wegen socket chatroom -->
+    <Player v-if="auth=='loggedin'" v-bind:messages="messages" v-on:sendMessage="this.sendMessage"  />
     <!-- socket chat -->
     <div class="header">
 			<h1>Chatroom</h1>
@@ -12,8 +14,6 @@
 			<p class="online">Online: {{ chatusers.length }}</p>
 		</div>
     <!-- bis hier -->
-    <!-- v-bind:messages="messages" v-on:sendMessage="this.sendMessage" ist neu wegen socket chatroom -->
-    <Player v-if="auth=='loggedin'" v-bind:messages="messages" v-on:sendMessage="this.sendMessage"  />
     <Copyright />
   </div>
 </template>
@@ -65,6 +65,9 @@ export default {
           self.$set(this, 'user', response.data.user)
           console.log('API CALL FOR USER DATA')
           this.emitPassUserData()
+        this.chatusername = this.user.username
+        this.socket.emit('testa', this.chatusername);
+        this.joinServer();
         })
         .catch((errors) => {
           console.log(errors)
@@ -75,6 +78,7 @@ export default {
     },
     // die restlichen 3 methods sind kopiert aus socket chatroom git
     joinServer: function () {
+      console.log('joinserver function')
 			this.socket.on('loggedIn', data => {
 				this.messages = data.messages;
 				this.chatusers = data.chatusers;
@@ -120,13 +124,16 @@ export default {
         // console.log('load player emit received on App.vue')
         // that.reloadPage()
       })
+    /*
     // kopiert aus socket chatroom git
     this.chatusername = prompt("What is your username?", "Anonymous");
 		if (!this.chatusername) {
 			this.chatusername = "Anonymous";
 		}
-		this.joinServer();
+    */
+		//this.joinServer();
     // bis hierher
+    
   }
 }
 </script>

@@ -393,7 +393,7 @@ io.on("connection", socket => {
 		io.emit('userOnline', socket.chatusername);
 	});
   
-  // neu von socket io rooms tutorial
+  // neu von socket io rooms tutorial //
   socket.on('join room', (roomName) => {
     socket.join(roomName);
     console.log('inside join room backend')

@@ -297,6 +297,7 @@ app.get("/api/getcomments", (req, res) => {
     })
 });
 
+/*
 app.post('/api/postcomment', (req, res) => {
     var channeltocomment = req.body.channelToComment
     let newcomment = req.body.userWhoComments + ' : ' + req.body.newComment
@@ -306,6 +307,7 @@ app.post('/api/postcomment', (req, res) => {
     })
     res.send('hallo from post comment backend route')
 });
+*/
 
 //get routes
 app.get("/api/radiodata", (req,res) => {
@@ -330,8 +332,14 @@ var server = app.listen(3000, () => {
 // socket
 var socket = require('socket.io');
 
+/*
 let chatusers = [];
-let messages = [];
+//let messages = [];
+let messages = {
+  886: [],
+  Rockovyradio: []
+};
+*/
 
 var io = socket(server, {
   cors: {
@@ -340,16 +348,10 @@ var io = socket(server, {
   }
 });
 
-/* alt
-io.sockets.on('connection', newConnection);
-
-function newConnection(socket) {
-  console.log(socket);
-}
-*/
-
+/*
 const ChatSchema = mongoose.Schema({
 	chatusername: String,
+  chatchannel: String,
 	msg: String
 });
 
@@ -361,15 +363,17 @@ ChatModel.find((err, result) => {
 	messages = result;
 });
 
+// 'connection' ist fixer bestand von socket.io
 io.on("connection", socket => {
   console.log('socket connected')
-  /*
-	socket.emit('loggedIn', {
-		chatusers: chatusers.map(s => s.chatusername),
-		messages: messages
-	});
-  */
+
+//	socket.emit('loggedIn', {
+//		chatusers: chatusers.map(s => s.chatusername),
+//		messages: messages
+//	});
+
   
+  // nicht sicher, ob ich das überhaupt brauche
   socket.on('testa', chatusername => {
     console.log('in testa');
     socket.emit('loggedIn', {
@@ -378,7 +382,7 @@ io.on("connection", socket => {
     });
 	});
   
-  
+  // user wird zum chatusers array hinzugefügt und die info dass er online ist ist für alle verfügbar
 	socket.on('newuser', chatusername => {
     console.log('in newuser');
 		console.log(`${chatusername} has arrived at the party.`);
@@ -388,13 +392,25 @@ io.on("connection", socket => {
 
 		io.emit('userOnline', socket.chatusername);
 	});
-
+  
+  // neu von socket io rooms tutorial
+  socket.on('join room', (roomName) => {
+    socket.join(roomName);
+    console.log('inside join room backend')
+    socket.roomname = roomName
+    console.log(roomName)
+  });
+  
+  // beim event msg wird die message gespeichert und für alle verfügbar gemacht
 	socket.on('msg', msg => {
 		let message = new ChatModel({
 			chatusername: socket.chatusername,
-			msg: msg
+      chatchannel: msg.chatchannel,
+      msg: msg.themessage
 		});
-
+    console.log(socket.chatchannel)
+    console.log(msg)
+    console.log(socket.roomname)
 		message.save((err, result) => {
 			if (err) throw err;
 
@@ -403,6 +419,31 @@ io.on("connection", socket => {
 			io.emit('msg', result);
 		});
 	});
+  
+  // dasselbe wie oben nur mit rooms
+  socket.on('send message', ({ content, to, sender, chatName, isChannel }) => {
+    if (isChannel) {
+      const payload = {
+        content,
+        chatName,
+        sender,
+      };
+      socket.to(to).emit('new message', payload);
+    } else {
+      const payload = {
+        content,
+        chatName: sender,
+        sender,
+      };
+      socket.to(to).emit('new message', payload);
+    }
+    if (messages[chatName]) {
+      messages[chatName].push({
+        sender,
+        content
+      });
+    }
+  })
 	
 	// Disconnect
 	socket.on("disconnect", () => {
@@ -411,4 +452,34 @@ io.on("connection", socket => {
 		chatusers.splice(chatusers.indexOf(socket), 1);
 	});
 });
+*/
 
+io.on("connection", socket => {
+  console.log('socket connected')
+  socket.on('join room', (roomName) => {
+    socket.join(roomName);
+    console.log('inside join room backend')
+    socket.roomname = roomName
+    console.log(roomName)
+  });
+  
+  //von hier
+  socket.on('send message', (chatmessage) => {
+    console.log('inside send message backend')
+    console.log(chatmessage)
+    console.log(socket.roomname)
+    //var payload = message
+    var person = 'sepp'
+    /*var payload = {
+      person: person,
+      message: message
+    }*/
+    io.to(socket.roomname).emit('new message', chatmessage);
+    //socket.emit('new message', payload);
+    Radio.findOne({ radioname: socket.roomname}, function (err, radio) {
+      radio.comments.push(chatmessage);
+      radio.save();
+    });
+  });
+  // bis hier noch am probiern
+});

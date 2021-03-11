@@ -65,9 +65,14 @@ export default {
           self.$set(this, 'user', response.data.user)
           console.log('API CALL FOR USER DATA')
           this.emitPassUserData()
-        this.chatusername = this.user.username
-        this.socket.emit('testa', this.chatusername);
-        this.joinServer();
+          this.getComments()
+        //this.chatusername = this.user.username
+        //this.socket.emit('testa', this.chatusername);
+        //this.joinServer();
+        var roomName = response.data.user.channel.radioname
+        console.log(response.data.user.channel)
+        this.socket.emit('join room', roomName);
+        this.listenForSocketEvents();
         })
         .catch((errors) => {
           console.log(errors)
@@ -76,16 +81,43 @@ export default {
           router.push('/login')
         })
     },
+    getComments: function () {
+      let self = this
+      console.log('inside getcomments in app.vue')
+      axios.get('/api/getcomments')
+        .then((response) => {
+          self.$set(this, 'comments', response.data.comments)
+          console.log(response.data.comments)
+          this.messages = response.data.comments
+        })
+        .catch((errors) => {
+          console.log(errors)
+          router.push('/login')
+        })
+    },
+    listenForSocketEvents: function () {
+      console.log('listening for socket events')
+			this.socket.on('new message', payload => {
+        console.log('inside new message frontend')
+        console.log(payload)
+				this.messages.push(payload);
+			});
+		},
+    /*
     // die restlichen 3 methods sind kopiert aus socket chatroom git
     joinServer: function () {
       console.log('joinserver function')
 			this.socket.on('loggedIn', data => {
 				this.messages = data.messages;
 				this.chatusers = data.chatusers;
+        var roomName = 'blablaraum'
 				this.socket.emit('newuser', this.chatusername);
+        this.socket.emit('join room', roomName);
 			});
 			this.listen();
 		},
+    */
+    /*
 		listen: function () {
 			this.socket.on('userOnline', chatuser => {
 				this.chatusers.push(chatuser);
@@ -97,8 +129,35 @@ export default {
 				this.messages.push(message);
 			});
 		},
+    */
+    /*
 		sendMessage: function (message) {
 			this.socket.emit('msg', message);
+		}
+    */
+    /*
+    sendMessage: function (message) {
+      console.log('in sendMessage')
+      console.log(this.user)
+      let chatusername = this.user.username
+      let chatchannel = this.user.channel.radioname
+      let themessage = message
+      let chatmessage = {
+        chatusername: chatusername,
+        chatchannel: chatchannel,
+        themessage: themessage
+      }
+      this.socket.emit('msg', chatmessage); 
+		}
+    */
+    sendMessage: function (message) {
+      var that = this
+      console.log(this.user.username)
+      var chatmessage = {
+        person: that.user.username,
+        message: message
+      }
+			this.socket.emit('send message', chatmessage);
 		}
   },
   mounted () {

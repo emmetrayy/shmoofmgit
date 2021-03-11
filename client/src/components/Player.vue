@@ -31,6 +31,7 @@
             <button v-if="showcommentsection" v-on:click="showcommentsection = false" class="editbutton">Hide Comments</button>
             <div v-if="showcommentsection">
                 <br>
+              <!--
                 <form v-on:submit="postComment">
                     <input class="commentfield" id="newcomment" type="text" v-model="yourcomment" placeholder="write a comment" >
                     <br>
@@ -38,9 +39,26 @@
                 </form>
                 <ul class="commentsoutputbox">
                     <li class="commentitem" v-for="comment in comments" :key="comment.id">
-                        <a>{{ comment }}</a>
+                        <a>{ { comment } }</a>
                     </li>
                 </ul>
+-->
+              <!-- socket chat -->
+              <div>
+                <div class="chatwindow">
+                  <div class="message" v-for="message in messages" v-bind:key="message._id">
+                    <div class="chat">
+                      <div class="chatuser">{{message.person}}:</div> 
+                      <div class="chatmessage"> {{message.message}}</div>
+                    </div>
+                  </div>
+                </div>
+                <form class="input-container" v-on:submit="sendMessage">
+                  <input type="text" v-model="msg">
+                  <button v-on:click="sendMessage" v-bind:disabled="!msg">Send</button>
+                </form>
+              </div>
+              <!-- bis hier -->
             </div>
             <br>
             <br>
@@ -62,22 +80,6 @@
         </div>
         <br>
         <br>
-        <!-- socket chat -->
-        <div>
-          <div class="chatwindow">
-            <div class="message" v-for="message in messages" v-bind:key="message._id">
-              <div class="chat">
-                <div class="chatuser">{{message.chatusername}}:</div> 
-                <div class="chatmessage"> {{message.msg}}</div> 
-              </div>
-            </div>
-          </div>
-          <form class="input-container" v-on:submit="sendMessage">
-            <input type="text" v-model="msg">
-            <button v-on:click="sendMessage" v-bind:disabled="!msg">Send</button>
-          </form>
-        </div>
-        <!-- bis hier -->
     </div>
 </template>
 
@@ -111,7 +113,7 @@ export default {
       securecontent: [],
       showcommentsection: false,
       comments: ['blabla', 'bam oida'],
-      yourcomment: '',
+      //yourcomment: '',
       checked: false,
       msg: "" // kopiert aus socket chatroom git
     }
@@ -185,6 +187,7 @@ export default {
           router.push('/login')
         })
     },
+    /*
     postComment: function () {
       let channelToComment = this.user.channel.radioname
       let userWhoComments = this.user.username
@@ -203,6 +206,7 @@ export default {
       sendComment()
       this.yourcomment = ''
     },
+    */
     // setzt beim mount gleich die source für den primary channel, damit mans nicht später alle 7 sekunden hat, was eine jeweils kurze unterbrechung des streams bedeuten würde
     setPrimaryChannelSRC: function () {
       var that = this

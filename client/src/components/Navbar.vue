@@ -48,7 +48,7 @@ export default {
     },
     // gibt den logged out status an die relevanten componenten weiter
     emitLoggedOutMethod: function () {
-      EventBus.$emit('logged-in', '')
+      EventBus.$emit('logged-out', '')
     }
   },
   mounted () {

@@ -282,34 +282,26 @@ app.use(function(err, req, res, next) {
     }
 })
 
-// Comment routes
+// get routes
 app.get("/api/getcomments", (req, res) => {
     let getcommentsid = req.session.passport.user
     User.findOne({ _id: getcommentsid }, function (err, user) {
         var findchannel = user.channel.radioname
         Radio.findOne({ radioname: findchannel}, function (err, radio) {
+            console.log(radio.comments.length)
+          /*
             if (radio.comments.length > 15) {
-                radio.comments.shift();
+                console.log('zu lang')
+                console.log(radio.comments[0])
+                //radio.comments.shift();
                 radio.save();
             }
+            */
             res.send({ comments: radio.comments })
         });
     })
 });
 
-/*
-app.post('/api/postcomment', (req, res) => {
-    var channeltocomment = req.body.channelToComment
-    let newcomment = req.body.userWhoComments + ' : ' + req.body.newComment
-    Radio.findOne({ radioname: channeltocomment }, function (err, radio) {
-        radio.comments.push(newcomment)
-        radio.save();
-    })
-    res.send('hallo from post comment backend route')
-});
-*/
-
-//get routes
 app.get("/api/radiodata", (req,res) => {
     Radio.find(function (err, radiodata) {
         res.send({ radiodata: radiodata})
@@ -329,17 +321,8 @@ var server = app.listen(3000, () => {
 })
 
 
-// socket
+// socket - ab hier alles neu
 var socket = require('socket.io');
-
-/*
-let chatusers = [];
-//let messages = [];
-let messages = {
-  886: [],
-  Rockovyradio: []
-};
-*/
 
 var io = socket(server, {
   cors: {
@@ -348,112 +331,6 @@ var io = socket(server, {
   }
 });
 
-/*
-const ChatSchema = mongoose.Schema({
-	chatusername: String,
-  chatchannel: String,
-	msg: String
-});
-
-const ChatModel = mongoose.model("chat", ChatSchema);
-
-ChatModel.find((err, result) => {
-	if (err) throw err;
-
-	messages = result;
-});
-
-// 'connection' ist fixer bestand von socket.io
-io.on("connection", socket => {
-  console.log('socket connected')
-
-//	socket.emit('loggedIn', {
-//		chatusers: chatusers.map(s => s.chatusername),
-//		messages: messages
-//	});
-
-  
-  // nicht sicher, ob ich das überhaupt brauche
-  socket.on('testa', chatusername => {
-    console.log('in testa');
-    socket.emit('loggedIn', {
-      chatusers: chatusers.map(s => s.chatusername),
-      messages: messages
-    });
-	});
-  
-  // user wird zum chatusers array hinzugefügt und die info dass er online ist ist für alle verfügbar
-	socket.on('newuser', chatusername => {
-    console.log('in newuser');
-		console.log(`${chatusername} has arrived at the party.`);
-		socket.chatusername = chatusername;
-		
-		chatusers.push(socket);
-
-		io.emit('userOnline', socket.chatusername);
-	});
-  
-  // neu von socket io rooms tutorial //
-  socket.on('join room', (roomName) => {
-    socket.join(roomName);
-    console.log('inside join room backend')
-    socket.roomname = roomName
-    console.log(roomName)
-  });
-  
-  // beim event msg wird die message gespeichert und für alle verfügbar gemacht
-	socket.on('msg', msg => {
-		let message = new ChatModel({
-			chatusername: socket.chatusername,
-      chatchannel: msg.chatchannel,
-      msg: msg.themessage
-		});
-    console.log(socket.chatchannel)
-    console.log(msg)
-    console.log(socket.roomname)
-		message.save((err, result) => {
-			if (err) throw err;
-
-			messages.push(result);
-
-			io.emit('msg', result);
-		});
-	});
-  
-  // dasselbe wie oben nur mit rooms
-  socket.on('send message', ({ content, to, sender, chatName, isChannel }) => {
-    if (isChannel) {
-      const payload = {
-        content,
-        chatName,
-        sender,
-      };
-      socket.to(to).emit('new message', payload);
-    } else {
-      const payload = {
-        content,
-        chatName: sender,
-        sender,
-      };
-      socket.to(to).emit('new message', payload);
-    }
-    if (messages[chatName]) {
-      messages[chatName].push({
-        sender,
-        content
-      });
-    }
-  })
-	
-	// Disconnect
-	socket.on("disconnect", () => {
-		console.log(`${socket.chatusername} has left the party.`);
-		io.emit("userLeft", socket.chatusername);
-		chatusers.splice(chatusers.indexOf(socket), 1);
-	});
-});
-*/
-
 io.on("connection", socket => {
   console.log('socket connected')
   socket.on('join room', (roomName) => {
@@ -463,23 +340,27 @@ io.on("connection", socket => {
     console.log(roomName)
   });
   
-  //von hier
   socket.on('send message', (chatmessage) => {
     console.log('inside send message backend')
     console.log(chatmessage)
     console.log(socket.roomname)
-    //var payload = message
-    var person = 'sepp'
-    /*var payload = {
-      person: person,
-      message: message
-    }*/
     io.to(socket.roomname).emit('new message', chatmessage);
-    //socket.emit('new message', payload);
     Radio.findOne({ radioname: socket.roomname}, function (err, radio) {
+      console.log(radio.comments.length)
+      //console.log(radio.comments)
       radio.comments.push(chatmessage);
+      console.log(radio.comments.length)
+      //console.log(radio.comments)
+      if (radio.comments.length > 15) {
+        radio.comments.shift();
+        console.log(radio.comments.length)
+        //console.log(radio.comments)
+        //radio.comments.shift();
+        //radio.save();
+      }
+      console.log(radio.comments.length)
+      //console.log(radio.comments)
       radio.save();
     });
   });
-  // bis hier noch am probiern
 });

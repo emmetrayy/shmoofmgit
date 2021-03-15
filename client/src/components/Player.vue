@@ -30,25 +30,13 @@
             <button v-if="showcommentsection === false" v-on:click="showcommentsection = true" class="editbutton">Show Comments</button>
             <button v-if="showcommentsection" v-on:click="showcommentsection = false" class="editbutton">Hide Comments</button>
             <div v-if="showcommentsection">
-                <br>
-              <!--
-                <form v-on:submit="postComment">
-                    <input class="commentfield" id="newcomment" type="text" v-model="yourcomment" placeholder="write a comment" >
-                    <br>
-                    <input type="submit" value="Send Comment" />
-                </form>
-                <ul class="commentsoutputbox">
-                    <li class="commentitem" v-for="comment in comments" :key="comment.id">
-                        <a>{ { comment } }</a>
-                    </li>
-                </ul>
--->
+              <br>
               <!-- socket chat -->
               <div>
                 <div class="chatwindow">
                   <div class="message" v-for="message in messages" v-bind:key="message._id">
                     <div class="chat">
-                      <div class="chatuser">{{message.person}}:</div> 
+                      <div class="chatuser">{{message.person}}:</div>
                       <div class="chatmessage"> {{message.message}}</div>
                     </div>
                   </div>
@@ -90,7 +78,7 @@ import EventBus from './EventBus'
 
 export default {
   name: 'Player',
-  props: ['messages'], // kopiert aus socket chatroom git
+  props: ['messages'], // neu
   data () {
     return {
       user: {
@@ -112,10 +100,8 @@ export default {
       lastupdate: 0,
       securecontent: [],
       showcommentsection: false,
-      comments: ['blabla', 'bam oida'],
-      //yourcomment: '',
       checked: false,
-      msg: "" // kopiert aus socket chatroom git
+      msg: '' // neu
     }
   },
   methods: {
@@ -175,38 +161,6 @@ export default {
           router.push('/login')
         })
     },
-    getComments: function () {
-      let self = this
-      axios.get('/api/getcomments')
-        .then((response) => {
-          self.$set(this, 'comments', response.data.comments)
-          this.comments = response.data.comments
-        })
-        .catch((errors) => {
-          console.log(errors)
-          router.push('/login')
-        })
-    },
-    /*
-    postComment: function () {
-      let channelToComment = this.user.channel.radioname
-      let userWhoComments = this.user.username
-      let newComment = this.yourcomment
-      let sendComment = () => {
-        let data = {channelToComment: channelToComment, userWhoComments: userWhoComments, newComment: newComment}
-        axios.post('api/postcomment', data)
-          .then((response) => {
-            console.log('comment posted')
-          }
-          )
-          .catch((errors) => {
-            console.log('Cannot post comment')
-          })
-      }
-      sendComment()
-      this.yourcomment = ''
-    },
-    */
     // setzt beim mount gleich die source für den primary channel, damit mans nicht später alle 7 sekunden hat, was eine jeweils kurze unterbrechung des streams bedeuten würde
     setPrimaryChannelSRC: function () {
       var that = this
@@ -456,18 +410,17 @@ export default {
         that.setCurrentUpdateEqualToLastUpdate()
         that.shmooAlarm()
         that.playerEndedCheck()
-        that.getComments()
       }, 2000)
     },
-    // sendMessage kopiert aus socket chatroom git
+    // neu die ganze sendMessage funktion
     sendMessage: function () {
-			if (!this.msg) {
-				alert("Please enter a message");
-				return;
-			}
-			this.$emit('sendMessage', this.msg);
-			this.msg = "";
-		}
+      if (!this.msg) {
+        alert('Thanks for your message')
+        return
+      }
+      this.$emit('sendMessage', this.msg)
+      this.msg = ''
+    }
   },
   mounted () {
     var that = this

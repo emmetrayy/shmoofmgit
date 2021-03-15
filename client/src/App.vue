@@ -7,13 +7,6 @@
     <hr class="hideonmobile">
     <!-- v-bind:messages="messages" v-on:sendMessage="this.sendMessage" ist neu wegen socket chatroom -->
     <Player v-if="auth=='loggedin'" v-bind:messages="messages" v-on:sendMessage="this.sendMessage"  />
-    <!-- socket chat -->
-    <div class="header">
-			<h1>Chatroom</h1>
-			<p class="username">Username: {{ chatusername }}</p>
-			<p class="online">Online: {{ chatusers.length }}</p>
-		</div>
-    <!-- bis hier -->
     <Copyright />
   </div>
 </template>
@@ -38,10 +31,8 @@ export default {
     return {
       auth: '',
       user: {},
-      socket: io('http://127.0.0.1:3000'),
-      chatusername: "", // kopiert aus socket chatroom git
-      messages: [], // kopiert aus socket chatroom git
-			chatusers: [] // kopiert aus socket chatroom git
+      socket: io('http://127.0.0.1:3000'), // neu
+      messages: [] // neu, brauch ich bekomm ich ursprünglich aber nicht vom socket sondern über getComments
     }
   },
   methods: {
@@ -65,14 +56,10 @@ export default {
           self.$set(this, 'user', response.data.user)
           console.log('API CALL FOR USER DATA')
           this.emitPassUserData()
-          this.getComments()
-        //this.chatusername = this.user.username
-        //this.socket.emit('testa', this.chatusername);
-        //this.joinServer();
-        var roomName = response.data.user.channel.radioname
-        console.log(response.data.user.channel)
-        this.socket.emit('join room', roomName);
-        this.listenForSocketEvents();
+          this.getComments() // neu weil ich beim laden des users die comments aus der datenbank ziehe, damit ich die bisherigen nachrichten krieg und nicht nur die ab wann ich einsteige
+          var roomName = response.data.user.channel.radioname // neu
+          this.socket.emit('join room', roomName) // neu
+          this.listenForSocketEvents() // neu
         })
         .catch((errors) => {
           console.log(errors)
@@ -81,6 +68,7 @@ export default {
           router.push('/login')
         })
     },
+    // neu die gesamte funktion, weil ich ja wie oben beschrieben beim laden des users die bestehenden kommentare reinziehen will
     getComments: function () {
       let self = this
       console.log('inside getcomments in app.vue')
@@ -95,61 +83,16 @@ export default {
           router.push('/login')
         })
     },
+    // neu die gesamte funktion
     listenForSocketEvents: function () {
       console.log('listening for socket events')
-			this.socket.on('new message', payload => {
+      this.socket.on('new message', payload => {
         console.log('inside new message frontend')
         console.log(payload)
-				this.messages.push(payload);
-			});
-		},
-    /*
-    // die restlichen 3 methods sind kopiert aus socket chatroom git
-    joinServer: function () {
-      console.log('joinserver function')
-			this.socket.on('loggedIn', data => {
-				this.messages = data.messages;
-				this.chatusers = data.chatusers;
-        var roomName = 'blablaraum'
-				this.socket.emit('newuser', this.chatusername);
-        this.socket.emit('join room', roomName);
-			});
-			this.listen();
-		},
-    */
-    /*
-		listen: function () {
-			this.socket.on('userOnline', chatuser => {
-				this.chatusers.push(chatuser);
-			});
-			this.socket.on('userLeft', chatuser => {
-				this.chatusers.splice(this.chatusers.indexOf(chatuser), 1);
-			});
-			this.socket.on('msg', message => {
-				this.messages.push(message);
-			});
-		},
-    */
-    /*
-		sendMessage: function (message) {
-			this.socket.emit('msg', message);
-		}
-    */
-    /*
-    sendMessage: function (message) {
-      console.log('in sendMessage')
-      console.log(this.user)
-      let chatusername = this.user.username
-      let chatchannel = this.user.channel.radioname
-      let themessage = message
-      let chatmessage = {
-        chatusername: chatusername,
-        chatchannel: chatchannel,
-        themessage: themessage
-      }
-      this.socket.emit('msg', chatmessage); 
-		}
-    */
+        this.messages.push(payload)
+      })
+    },
+    // neu die gesamte funktion
     sendMessage: function (message) {
       var that = this
       console.log(this.user.username)
@@ -157,8 +100,8 @@ export default {
         person: that.user.username,
         message: message
       }
-			this.socket.emit('send message', chatmessage);
-		}
+      this.socket.emit('send message', chatmessage)
+    }
   },
   mounted () {
     console.log('App.vue mounted')
@@ -183,16 +126,10 @@ export default {
         // console.log('load player emit received on App.vue')
         // that.reloadPage()
       })
-    /*
-    // kopiert aus socket chatroom git
-    this.chatusername = prompt("What is your username?", "Anonymous");
-		if (!this.chatusername) {
-			this.chatusername = "Anonymous";
-		}
-    */
-		//this.joinServer();
-    // bis hierher
-    
+    EventBus.$on('logged-out', status => {
+      this.auth = status
+      location.reload()
+    })
   }
 }
 </script>

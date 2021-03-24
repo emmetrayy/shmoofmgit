@@ -11,9 +11,11 @@
             <h2 class="shmooheader">No¶-List</h2>
             <ul class="shmooul">
                 <input id="searchshmoo" type="text" v-model="search" placeholder="search" >
+              <br/>
                 <li class="shmoolistitem" v-for="(x, index) in filteredShmoo" :key="x.id" v-on:click="selectShmooElement($event, x)">
-                    <a>{{ index }} - {{ x }}</a>
-                    <a id="deleteitem">delete</a>
+                    <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
+                    <a>{{ index +1 }} - {{ x }}</a>
+                   <!-- <a id="deleteitem">delete</a> -->
                 </li>
             </ul>
             <br>
@@ -110,14 +112,15 @@ export default {
         margin-left: 4%;
     }
     .shmooul {
-        margin-left: 60px;
+        margin-left: 10px;
         margin-top: 20px;
-        margin-right: 60px
+        margin-right: 10px
     }
     .shmoolistitem {
+      width: fit-content;
         list-style: none;
         text-align: left;
-        border-style: solid
+        /*border-style: solid*/
     }
     .shmoolistitem:hover {
         cursor: pointer;
@@ -130,9 +133,16 @@ export default {
         padding-left: 5px;
         padding-right: 5px;
     }
+  .deleteicon{
+    width: 40px;
+    height: 40px;
+  }
     #searchshmoo {
-        color: lightgray;
+      border-radius: 5px;
+      border-color: black;
+        color: whitesmoke;
         background-color: cadetblue;
+      margin-bottom: 30px;
     }
     .gethelp {
         float: right;

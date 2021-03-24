@@ -4,11 +4,11 @@
         <p @mouseover="isHovering = true"
             @mouseout="isHovering = false"
             :class="{hovering: isHovering}" class="gethelp">
-            {{ isHovering ? "If you run the app in 'alternativePlaylist Mode' it will switch to a random track from your playlist, whenever shmoo is detected." : "Help" }}
+            {{ isHovering ? "If you run the app in 'alternativePlaylist Mode' it will switch to a random song from your playlist, whenever shmoo is detected. It will play the song to the end and then automatically switch back to the radiochannel." : "Help" }}
         </p>
         <div>
             <h2 class="privateplaylistheader">Playlist</h2>
-            <p>You can upload up to 10 tracks to your playlist.</p>
+            <p>You can upload up to 10 songs to your playlist.</p>
             <!-- File Upload -->
             <form @submit.prevent="sendFile" enctype="multipart/form-data">
                 <div>
@@ -29,9 +29,10 @@
         <!-- Private Playlist -->
         <div>
             <ul class="playlistul">
-                <li class="playlistitem" v-for="privateplaylistitem in user.privateplaylist" :key="privateplaylistitem.id" v-on:click="playlistItemClicked($event, privateplaylistitem)">
-                    <a>{{ privateplaylistitem }}</a>
-                    <a id="deleteitem">delete</a>
+                <li class="playlistitem" v-for="(privateplaylistitem, index) in user.privateplaylist" :key="privateplaylistitem.id" v-on:click="playlistItemClicked($event, privateplaylistitem)">
+                    <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
+                    <a>{{ index +1 }} - {{ privateplaylistitem }}</a>
+                    <!--<a id="deleteitem">delete</a>-->
                 </li>
             </ul>
         </div>
@@ -161,16 +162,17 @@ export default {
         margin-top: 20px;
     }
     .playlistul {
-        margin-left: 60px;
+        margin-left: 10px;
         margin-top: 20px;
-        margin-right: 60px
+        margin-right: 10px
     }
     .playlistitem {
+      width: fit-content;
         list-style: none;
         text-align: left;
-        border-style: solid;
-        margin-left: 15%;
-        margin-right: 15%;
+        /*border-style: solid;*/
+        /*margin-left: 15%;*/
+        /*margin-right: 15%;*/
     }
     .fullplaylistitem {
         list-style: none;
@@ -181,9 +183,11 @@ export default {
         color: red
     }
     .selectfile {
+      border-radius: 5px;
         background-color: lightslategrey;
     }
     .sendfilebutton {
+      border-radius: 10px;
         background-color: cadetblue;
     }
     .messageclass {
@@ -196,6 +200,10 @@ export default {
         padding-left: 5px;
         padding-right: 5px;
     }
+  .deleteicon{
+    width: 40px;
+    height: 40px;
+  }
     #searchplaylist {
         color: lightgray;
         background-color: cadetblue;

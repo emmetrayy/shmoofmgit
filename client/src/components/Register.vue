@@ -1,13 +1,16 @@
 <template>
-    <div>
-        <h2>Register</h2>
-        <form v-on:submit="register">
-            <input type="text" name="username" placeholder="username" /><br>
-            <input type="text" name="email" placeholder="email" /><br>
-            <input type="text" name="password" placeholder="password" /><br>
-            <input type="submit" value="Register" />
-        </form>
-    </div>
+  <div>
+    <h2>Register</h2>
+    <form v-on:submit="register">
+      <input class="inputfield" type="text" name="username" placeholder="username" />
+      <br>
+      <input class="inputfield" type="text" name="email" placeholder="email" />
+      <br>
+      <input class="inputfield" type="text" name="password" placeholder="password" />
+      <br>
+      <input class="submitbutton" type="submit" value="Register" />
+    </form>
+  </div>
 </template>
 
 <script>
@@ -42,3 +45,19 @@ export default {
   }
 }
 </script>
+<style>
+  .inputfield {
+    border-color: black;
+    border-radius: 5px;
+  }
+  .submitbutton{
+    border-radius: 10px;
+    background-color: cadetblue;
+  }
+  .submitbutton:hover {
+    cursor: pointer;
+    color: lightgrey;
+    border-color: lightgrey;
+    background-color: lightseagreen;
+  }
+</style>

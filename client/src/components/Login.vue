@@ -2,9 +2,9 @@
     <div>
         <h2>Login</h2>
         <form v-on:submit="login">
-            <input v-model="userName" type="text" name="username" placeholder="username" /><br>
-            <input v-model="passWord" type="text" name="password" placeholder="password" /><br>
-            <input type="submit" value="Login" />
+            <input class="inputfield" v-model="userName" type="text" name="username" placeholder="username" /><br>
+            <input class="inputfield" v-model="passWord" type="text" name="password" placeholder="password" /><br>
+            <input class="submitbutton" type="submit" value="Login" />
         </form>
     </div>
 </template>
@@ -59,12 +59,18 @@ export default {
 }
 </script>
 <style>
-    #forgotpassword {
-        color: darkblue;
-        text-decoration: underline;
-    }
-    #forgotpassword:hover {
-        color: deepskyblue;
-        cursor: pointer;
-    }
+  .inputfield {
+    border-color: black;
+    border-radius: 5px;
+  }
+  .submitbutton{
+    border-radius: 10px;
+    background-color: cadetblue;
+  }
+  .submitbutton:hover {
+    cursor: pointer;
+    color: lightgrey;
+    border-color: lightgrey;
+    background-color: lightseagreen;
+  }
 </style>

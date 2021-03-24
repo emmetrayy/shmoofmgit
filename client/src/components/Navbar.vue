@@ -64,6 +64,8 @@ export default {
 <style>
     .navul {
         list-style: none;
+      border-bottom-style: solid;
+      border-bottom-color: dimgrey;
     }
     .navli {
         display: inline;

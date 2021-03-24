@@ -9,9 +9,11 @@
         <div class="hideonmobile">
             <h2 class="profileheader">Profile</h2>
             <div class="profilecontainer">
-                <div>Username: {{user.username}} </div>
+                <div style="margin:8px;">Username: <div style="display:inline;font-size:25px;font-weight:bold;">{{user.username}}</div></div>
                 <!-- Email -->
-                <div>Email: {{user.email}} <button v-on:click="showeditemail = true" class="editbutton">Edit</button>
+                <div>
+                  <div><img v-on:click="showeditemail = true" class="editicon" src="../assets/edit_icon_v1_png.png">Email: {{user.email}}
+                  </div>
                     <div v-if="showeditemail">
                         <label>New Email</label>
                         <form v-on:submit="editEmail">
@@ -21,7 +23,7 @@
                     </div>
                 </div>
                 <!-- Mode -->
-                <div>Mode: {{user.mode}} <button v-on:click="showeditmode = true" class="editbutton">Edit</button>
+                <div><img v-on:click="showeditmode = true" class="editicon" src="../assets/edit_icon_v1_png.png">Mode: {{user.mode}}
                     <div v-if="showeditmode">
                         <label>Select Mode</label>
                         <form class="profileform" v-on:submit="editMode">
@@ -33,7 +35,7 @@
                     </div>
                 </div>
                 <!-- MainChannel -->
-                <div>MainChannel: {{user.channel.radioname}} <button v-on:click="showeditmainchannel = true" class="editbutton">Edit</button>
+                <div><img v-on:click="showeditmainchannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">MainChannel: {{user.channel.radioname}}
                     <div v-if="showeditmainchannel">
                         <label>Search By Country</label>
                         <form class="profileform" v-on:submit="filteredChannels">
@@ -49,7 +51,7 @@
                     </div>
                 </div>
                 <!-- AlternativeChannel -->
-                <div>AlternativeChannel: {{user.alternativechannel.radioname}} <button v-on:click="showeditalternativechannel = true" class="editbutton">Edit</button>
+                <div><img v-on:click="showeditalternativechannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">AlternativeChannel: {{user.alternativechannel.radioname}}
                     <div v-show="showeditalternativechannel">
                         <label>Search By Country</label>
                         <form class="profileform" v-on:submit="filteredAlternativeChannels">
@@ -302,6 +304,7 @@ export default {
         margin-top: 20px;
     }
     .profilecontainer {
+      background-color: gainsboro;
         padding-left: 10px;
         padding-bottom: 20px;
         text-align: left;
@@ -318,8 +321,15 @@ export default {
     .hovering{
       color: black
     }
-    .editbutton{
-      background-color: cadetblue
+    .editicon{
+      width: 40px;
+      height: 40px;
+    }
+  .editicon:hover{
+      cursor: pointer;
+    }
+  .showeditdiv{
+      display: inline;
     }
     .radiochannelitem {
         list-style: none;

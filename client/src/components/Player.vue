@@ -1,13 +1,15 @@
 <template>
-    <div class="playercomponentcontainer">
-        <!-- Playerbuttons -->
-        <button class="playbutton" v-on:click="playFunction">Play ></button>
-        <button class="mutebutton" v-on:click="muteFunction">Mute</button>
-        <button class="unmutebutton" v-on:click="unmuteFunction">Unmute</button>
-        <br class="hideonmobile">
+    <div>
+      <!-- Playerbuttons -->
+      <div class="playericonscontainer">
+        <div class="playerbutton" v-on:click="playFunction"><img class="playericon" src="../assets/play_icon_v1_png.png"><img class="playericonoverlay" src="../assets/play_icon_v1darkgrey_png.png"></div>
+        <div class="playerbutton" v-on:click="muteFunction"><img class="playericon" src="../assets/mute_icon_v4_png.png"><img class="playericonoverlay" src="../assets/mute_icon_v4grey_png.png"></div>
+        <div class="playerbutton" v-on:click="unmuteFunction"><img class="playericon" src="../assets/unmute_icon_v4_png.png"><img class="playericonoverlay" src="../assets/unmute_icon_v4red_png.png"></div>
+      </div>
+        <br>
         <br>
         <!-- No¶ Button -->
-        <button class="lolbutton" v-on:click="lolFunction" id="LolButton">No¶</button>
+        <div class="nopebutton" v-on:click="lolFunction"><img class="nopeimage" src="../assets/nope_button2_v3_png.png"><img class="nopeoverlay" src="../assets/nope_button2_v3red_png.png"></div>
         <!-- currentsong info output und etliche linebreaks -->
         <div>
             <br>
@@ -16,19 +18,19 @@
             <br class="hideondesktop">
             <br class="hideondesktop">
             <br class="hideondesktop">
-            <div class="nowplayingdiv">Now playing on Main Channel:</div>
+            <div class="nowplayingtextdiv">Now playing on Main Channel:</div>
             <br>
-            <div class="nowplayingtitle">{{ currentsong }}</div>
+            <div class="nowplayingtitlediv">{{ currentsong }}</div>
             <br>
             <br>
-            <div class="nowplayingdiv">{{ user.channel.radioname }}</div>
+            <div class="nowplayingchanneldiv">{{ user.channel.radioname }}</div>
             <br>
             <br>
         </div>
         <!-- comments section und ein paar linebreaks -->
         <div>
-            <button v-if="showcommentsection === false" v-on:click="showcommentsection = true" class="editbutton">Show Comments</button>
-            <button v-if="showcommentsection" v-on:click="showcommentsection = false" class="editbutton">Hide Comments</button>
+            <button v-if="showcommentsection === false" v-on:click="showcommentsection = true" class="commentbutton">Show Comments</button>
+            <button v-if="showcommentsection" v-on:click="showcommentsection = false" class="commentbutton">Hide Comments</button>
             <div v-if="showcommentsection">
               <br>
               <!-- socket chat -->
@@ -41,9 +43,9 @@
                     </div>
                   </div>
                 </div>
-                <form class="input-container" v-on:submit="sendMessage">
-                  <input type="text" v-model="msg">
-                  <button v-on:click="sendMessage" v-bind:disabled="!msg">Send</button>
+                <form class="newcommentcontainer" v-on:submit="sendMessage">
+                  <input class="newcommentinput" type="text" placeholder="write a comment" v-model="msg">
+                  <button class="newcommentsendbutton" v-on:click="sendMessage" v-bind:disabled="!msg">Send</button>
                 </form>
               </div>
               <!-- bis hier -->
@@ -441,71 +443,101 @@ export default {
 }
 </script>
 <style>
-    .playercomponentcontainer {
-        background-color: gainsboro;
-    }
-    .hide {
-        display: none
-    }
-    .playbutton {
-        background-color: cadetblue;
-        margin-left: 10px;
-        position: relative;
-        float: left;
-    }
-    .mutebutton {
-        background-color: chocolate;
-        float: left;
-    }
-    .unmutebutton {
-        background-color: cornsilk;
-        float: left;
-    }
-    .lolbutton {
-        float: left;
-        font-size: 80px;
-        color: darkgreen;
-        background-color: orange;
-        margin: 10px
-    }
-    .editbutton{
-        background-color: cadetblue;
-    }
-    .nowplayingdiv {
-        float: left;
-        font-size: 14px;
-        margin-left: 10px;
-    }
-    .nowplayingtitle {
-        float: left;
-        font-size: 18px;
-        margin-left: 10px;
-    }
-    .hideondesktop {
-        display: none;
-    }
-    .commentsoutputbox {
-        background-color: cadetblue;
-        margin-left: 60px;
-        margin-top: 20px;
-        margin-right: 60px;
-        padding: 7px;
-        border-style: solid;
-        border-width: 2px;
-    }
-    .commentitem {
-        list-style: none;
-        text-align: left;
-        border-style: ridge;
-        border-width: 2px;
-        background-color: whitesmoke;
-        margin-top: 5px;
-    }
-    .commentfield {
-        width: 80%;
-        background-color: whitesmoke;
-    }
+  .hide {
+    display: none
+  }
+  .hideondesktop {
+    display: none;
+  }
+  .playericonscontainer{
+    margin-left: 10px;
+    position: relative;
+  }
+  .playerbutton{
+    border-radius: 15px;
+    position: relative; /*neu*/
+    float: left;
+    width: 45px;
+    height: 45px;
+  }
+  .playericon{
+    width: 100%;
+    height: 100%;
+  }
+  .playericonoverlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .playericon:hover {
+    cursor: pointer;
+    background-color: lightgrey;
+  }
+  .playericonoverlay:hover {
+    cursor:pointer;
+    opacity: 50%;
+  }
+  .nopebutton{
+    border-radius: 25px;
+    position: relative; /*neu*/
+    float: left;
+    /*margin: 10px;*/
+    width: 150px;
+    height: 130px;
+    margin: 10px;
+  }
+  .nopeimage{/*neu*/
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .nopeoverlay{/*neu*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .nopebutton:hover {
+    cursor:grab;
+    /*background-color: lightgrey;*/
+  }
+  .nopeoverlay:hover {
+    cursor:grab;
+    opacity: 20%;
+  }
+  .commentbutton{
+    background-color: cadetblue;
+    border-radius: 10px;
+  }
+  .commentbutton:hover {
+    cursor: pointer;
+    color: lightgrey;
+    border-color: lightgrey;
+    background-color: lightseagreen;
+  }
+  .nowplayingtextdiv {
+    float: left;
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  .nowplayingtitlediv {
+    float: left;
+    font-size: 18px;
+    margin-left: 10px;
+  }
+  .nowplayingchanneldiv {
+    float: left;
+    font-size: 14px;
+    margin-left: 10px;
+  }
   .chatwindow{
+    border-radius: 10px;
     border-style: solid;
     border-color: black;
     margin-left: 10%;
@@ -513,11 +545,12 @@ export default {
     background-color: cadetblue
   }
   .chat {
+    border-radius: 5px;
     text-align: left;
     margin-left: 10px;
     background-color: whitesmoke;
     margin: 5px;
-    border-style: ridge;
+    border-style: solid;
     border-width: 2px;
   }
   .chatuser{
@@ -529,25 +562,50 @@ export default {
     display: inline;
     margin-left: 5px;
   }
+  .newcommentcontainer{
+    margin-top: 10px;
+  }
+  .newcommentinput {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: black;
+  }
+  .newcommentsendbutton{
+    border-radius: 5px;
+    border-style: solid;
+    border-color: black;
+    background-color: cadetblue;
+    color: whitesmoke;
+  }
 
-@media (max-width: 500px) {
-    .playbutton {
-        font-size: 12px;
-    }
-    .mutebutton {
-        font-size: 12px;
-    }
-    .unmutebutton {
-        font-size: 12px;
-    }
-    .lolbutton {
-        font-size: 60px;
-    }
-    .hideonmobile {
-        display: none;
-    }
-    .hideondesktop {
-        display: block;
-    }
+@media (max-width: 800px) {
+  .hideonmobile {
+    display: none;
+  }
+  .hideondesktop {
+    display: block;
+  }
+  .playericonscontainer{
+    margin-left: 10%;
+  }
+  .playerbutton{
+    width: 30px;
+    height: 30px;
+  }
+  .nopebutton{
+    margin-left: 10%;
+    margin-right: 20%;
+    width: 40%;
+    height: 100px;
+  }
+  .nowplayingtextdiv {
+    clear:both;
+  }
+  .nowplayingtitlediv {
+    clear:both;
+  }
+  .nowplayingchanneldiv {
+    clear:both;
+  }
 }
 </style>

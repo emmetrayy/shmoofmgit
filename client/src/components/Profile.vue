@@ -28,8 +28,9 @@
                     <div v-if="showeditemail">
                         <label>New Email</label>
                         <form v-on:submit="editEmail">
-                            <input type="text" name="email" /><br>
-                            <input type="submit" value="Change Email" />
+                            <input class="emailinput" type="text" name="email" /><br>
+                            <input class="profileeditbutton" type="submit" value="change email" />
+                            <button class="profileeditbutton" v-on:click="showeditemail = false">undo</button>
                         </form>
                     </div>
                 </div>
@@ -40,8 +41,9 @@
                     <div v-if="showeditemail">
                         <label>Neue Email Adresse</label>
                         <form v-on:submit="editEmail">
-                            <input type="text" name="email" /><br>
-                            <input type="submit" value="Email ändern" />
+                            <input class="emailinput" type="text" name="email" /><br>
+                            <input class="profileeditbutton" type="submit" value="Email ändern" />
+                            <button class="profileeditbutton" v-on:click="showeditemail = false">zurück</button>
                         </form>
                     </div>
                 </div>
@@ -51,10 +53,11 @@
                     <div v-if="showeditlanguage">
                         <label>Select Language</label>
                         <form class="profileform" v-on:submit="editLanguage">
-                            <select v-model="user.language">
+                            <select class="profileeditother" v-model="user.language">
                                 <option v-for="mylanguage in languages" :key="mylanguage.id">{{mylanguage}}</option>
                             </select>
-                            <input type="submit" value="save" />
+                            <input class="profileeditbutton" type="submit" value="save" />
+                            <button class="profileeditbutton" v-on:click="showeditlanguage = false">undo</button>
                         </form>
                     </div>
                 </div>
@@ -63,10 +66,11 @@
                     <div v-if="showeditlanguage">
                         <label>Sprache auswählen</label>
                         <form class="profileform" v-on:submit="editLanguage">
-                            <select v-model="user.language">
+                            <select class="profileeditother" v-model="user.language">
                                 <option v-for="mylanguage in languages" :key="mylanguage.id">{{mylanguage}}</option>
                             </select>
-                            <input type="submit" value="speichern" />
+                            <input class="profileeditbutton" type="submit" value="speichern" />
+                            <button class="profileeditbutton" v-on:click="showeditlanguage = false">zurück</button>
                         </form>
                     </div>
                 </div>
@@ -76,10 +80,11 @@
                     <div v-if="showeditmode">
                         <label>Select Mode</label>
                         <form class="profileform" v-on:submit="editMode">
-                            <select v-model="user.mode">
+                            <select class="profileeditother" v-model="user.mode">
                                 <option v-for="vuemode in modes" :key="vuemode.id">{{vuemode}}</option>
                             </select>
-                            <input type="submit" value="save" />
+                            <input class="profileeditbutton" type="submit" value="save" />
+                            <button class="profileeditbutton" v-on:click="showeditmode = false">undo</button>
                         </form>
                     </div>
                 </div>
@@ -88,10 +93,11 @@
                     <div v-if="showeditmode">
                         <label>Modus auswählen</label>
                         <form class="profileform" v-on:submit="editMode">
-                            <select v-model="user.mode">
+                            <select class="profileeditother" v-model="user.mode">
                                 <option v-for="vuemode in modes" :key="vuemode.id">{{vuemode}}</option>
                             </select>
-                            <input type="submit" value="speichern" />
+                            <input class="profileeditbutton" type="submit" value="speichern" />
+                            <button class="profileeditbutton" v-on:click="showeditmode = false">zurück</button>
                         </form>
                     </div>
                 </div>
@@ -101,10 +107,12 @@
                     <div v-if="showeditmainchannel">
                         <label>Search By Country</label>
                         <form class="profileform" v-on:submit="filteredChannels">
-                            <select v-model="selectedcountry">
+                            <select class="profileeditother" v-model="selectedcountry">
+                                <option value="" disabled selected>select</option>
                                 <option v-for="country in countrylist" :key="country.id">{{country}}</option>
                             </select>
-                            <input type="submit" value="filter" />
+                            <input class="profileeditbutton" type="submit" value="filter" />
+                            <button class="profileeditbutton" v-on:click="showeditmainchannel = false">undo</button>
                         </form>
                         <!--eslint-disable-next-line-->
                         <li class="radiochannelitem" v-for="(k) in filteredchannels" v-on:click="selectChannel($event, k)">
@@ -117,10 +125,12 @@
                     <div v-if="showeditmainchannel">
                         <label>nach Ländern filtern</label>
                         <form class="profileform" v-on:submit="filteredChannels">
-                            <select v-model="selectedcountry">
+                            <select class="profileeditother" v-model="selectedcountry">
+                                <option value="" disabled selected>auswählen</option>
                                 <option v-for="country in countrylist" :key="country.id">{{country}}</option>
                             </select>
-                            <input type="submit" value="filtern" />
+                            <input class="profileeditbutton" type="submit" value="filtern" />
+                            <button class="profileeditbutton" v-on:click="showeditmainchannel = false">zurück</button>
                         </form>
                         <!--eslint-disable-next-line-->
                         <li class="radiochannelitem" v-for="(k) in filteredchannels" v-on:click="selectChannel($event, k)">
@@ -134,10 +144,12 @@
                     <div v-show="showeditalternativechannel">
                         <label>Search By Country</label>
                         <form class="profileform" v-on:submit="filteredAlternativeChannels">
-                            <select v-model="selectedcountryalternative">
+                            <select class="profileeditother" v-model="selectedcountryalternative">
+                                <option value="" disabled selected>select</option>
                                 <option v-for="country in countrylist" :key="country.id">{{country}}</option>
                             </select>
-                            <input type="submit" value="filter" />
+                            <input class="profileeditbutton" type="submit" value="filter" />
+                            <button class="profileeditbutton" v-on:click="showeditalternativechannel = false">undo</button>
                         </form>
                         <!--eslint-disable-next-line-->
                         <li class="radiochannelitem" v-for="(m) in filteredalternativechannels" v-on:click="selectAlternativeChannel($event, m)">
@@ -150,10 +162,12 @@
                     <div v-show="showeditalternativechannel">
                         <label>nach Ländern filtern</label>
                         <form class="profileform" v-on:submit="filteredAlternativeChannels">
-                            <select v-model="selectedcountryalternative">
+                            <select class="profileeditother" v-model="selectedcountryalternative">
+                                <option value="" disabled selected>auswählen</option>
                                 <option v-for="country in countrylist" :key="country.id">{{country}}</option>
                             </select>
-                            <input type="submit" value="filtern" />
+                            <input class="profileeditbutton" type="submit" value="filtern" />
+                            <button class="profileeditbutton" v-on:click="showeditalternativechannel = false">zurück</button>
                         </form>
                         <!--eslint-disable-next-line-->
                         <li class="radiochannelitem" v-for="(m) in filteredalternativechannels" v-on:click="selectAlternativeChannel($event, m)">
@@ -450,6 +464,25 @@ export default {
   .editicon:hover{
       cursor: pointer;
     }
+  .profileeditbutton{
+    border-radius: 5px;
+    border-style: solid;
+    border-color: black;
+    background-color: cadetblue;
+    color: whitesmoke;
+  }
+  .profileeditother{
+    border-radius: 5px;
+    border-style: solid;
+    border-color: black;
+    background-color: slategray;
+    color: whitesmoke;
+  }
+  .emailinput {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: black;
+  }
   .showeditdiv{
       display: inline;
     }

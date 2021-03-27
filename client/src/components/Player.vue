@@ -18,7 +18,10 @@
             <br class="hideondesktop">
             <br class="hideondesktop">
             <br class="hideondesktop">
-            <div class="nowplayingtextdiv">Now playing on Main Channel:</div>
+            <!-- now playing text englisch -->
+            <div v-if="user.language==='English'" class="nowplayingtextdiv">Now playing on Main Channel:</div>
+            <!-- now playing text deutsch -->
+            <div v-if="user.language==='Deutsch'" class="nowplayingtextdiv">Jetzt auf meinem Sender:</div>
             <br>
             <div class="nowplayingtitlediv">{{ currentsong }}</div>
             <br>
@@ -29,8 +32,12 @@
         </div>
         <!-- comments section und ein paar linebreaks -->
         <div>
-            <button v-if="showcommentsection === false" v-on:click="showcommentsection = true" class="commentbutton">Show Comments</button>
-            <button v-if="showcommentsection" v-on:click="showcommentsection = false" class="commentbutton">Hide Comments</button>
+            <!-- show/hide comment button englisch -->
+            <button v-if="showcommentsection === false && user.language==='English'" v-on:click="showcommentsection = true" class="commentbutton">Show Comments</button>
+            <button v-if="showcommentsection && user.language==='English'" v-on:click="showcommentsection = false" class="commentbutton">Hide Comments</button>
+            <!-- show/hide comment button deutsch -->
+            <button v-if="showcommentsection === false && user.language==='Deutsch'" v-on:click="showcommentsection = true" class="commentbutton">Kommentare anzeigen</button>
+            <button v-if="showcommentsection && user.language==='Deutsch'" v-on:click="showcommentsection = false" class="commentbutton">Kommentare verbergen</button>
             <div v-if="showcommentsection">
               <br>
               <!-- socket chat -->
@@ -43,9 +50,15 @@
                     </div>
                   </div>
                 </div>
-                <form class="newcommentcontainer" v-on:submit="sendMessage">
+                <!-- neuer kommentar englisch -->
+                <form v-if="user.language==='English'" class="newcommentcontainer" v-on:submit="sendMessage">
                   <input class="newcommentinput" type="text" placeholder="write a comment" v-model="msg">
                   <button class="newcommentsendbutton" v-on:click="sendMessage" v-bind:disabled="!msg">Send</button>
+                </form>
+                <!-- neuer kommentar deutsch -->
+                <form v-if="user.language==='Deutsch'" class="newcommentcontainer" v-on:submit="sendMessage">
+                  <input class="newcommentinput" type="text" placeholder="Dein Kommentar" v-model="msg">
+                  <button class="newcommentsendbutton" v-on:click="sendMessage" v-bind:disabled="!msg">Senden</button>
                 </form>
               </div>
               <!-- bis hier -->
@@ -566,6 +579,7 @@ export default {
     margin-top: 10px;
   }
   .newcommentinput {
+    width: 60%;
     border-radius: 5px;
     border-style: solid;
     border-color: black;

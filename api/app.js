@@ -47,6 +47,7 @@ app.post("/api/register", (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
+        language: 'eng',
         mode: 'alternativeChannel',
         channel: {radioname: 'unselected',
             radiourl: 'unselected',
@@ -131,6 +132,15 @@ app.post('/api/emailchange', (req, res) => {
     let emailchangeid = req.session.passport.user
     User.findOne({ _id: emailchangeid }, function (err, user) {
         user.email = newemail
+        user.save();
+    })
+});
+
+app.post('/api/languageselection', (req, res) => {
+    let newlanguage = req.body.selectedLanguage
+    let languageselectionid = req.session.passport.user
+    User.findOne({ _id: languageselectionid }, function (err, user) {
+        user.language = newlanguage
         user.save();
     })
 });

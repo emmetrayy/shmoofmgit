@@ -1,14 +1,24 @@
 <template>
     <div>
         <!-- help info -->
-        <p @mouseover="isHovering = true"
+        <!-- help info englisch -->
+        <p v-if="user.language==='English'" @mouseover="isHovering = true"
             @mouseout="isHovering = false"
             :class="{hovering: isHovering}" class="gethelp">
             {{ isHovering ? "If you run the app in 'alternativePlaylist Mode' it will switch to a random song from your playlist, whenever shmoo is detected. It will play the song to the end and then automatically switch back to the radiochannel." : "Help" }}
         </p>
+        <!-- help info deutsch -->
+        <p v-if="user.language==='Deutsch'" @mouseover="isHovering = true"
+            @mouseout="isHovering = false"
+            :class="{hovering: isHovering}" class="gethelp">
+            {{ isHovering ? "Wenn du 'alternativePlaylist Mode' ausgewählt hast, wechselt die App immer, wenn Shmoo auf deinem Sender läuft, automatisch auf ein zufällig ausgewähltes Lied aus deiner Playlist und danach wieder zurück auf den ausgewählten Sender." : "Hilfe" }}
+        </p>
         <div>
             <h2 class="privateplaylistheader">Playlist</h2>
-            <p>You can upload up to 10 songs to your playlist.</p>
+            <!-- upload info englisch -->
+            <p v-if="user.language==='English'">You can upload up to 10 songs to your playlist.</p>
+            <!-- upload info deutsch -->
+            <p v-if="user.language==='Deutsch'">Du kannst bis zu 10 Lieder in deine Playlist hochladen.</p>
             <!-- File Upload -->
             <form @submit.prevent="sendFile" enctype="multipart/form-data">
                 <div>

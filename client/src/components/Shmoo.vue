@@ -1,26 +1,39 @@
 <template>
-    <div>
-        <!-- help info -->
-        <p @mouseover="isHovering = true"
-            @mouseout="isHovering = false"
-            :class="{hovering: isHovering}" class="gethelp">
-            {{ isHovering ? "All the songs you disliked so far are listed here. You dont have to hear any of them ever again. In case you changed your taste (or if your brother used your account and made a mess of it), you can bring them back in the game by removing from this list" : "Help" }}
-        </p>
-        <!-- No¶-List -->
-        <div class="hideonmobile">
-            <h2 class="shmooheader">No¶-List</h2>
-            <ul class="shmooul">
-                <input id="searchshmoo" type="text" v-model="search" placeholder="search" >
-              <br/>
-                <li class="shmoolistitem" v-for="(x, index) in filteredShmoo" :key="x.id" v-on:click="selectShmooElement($event, x)">
-                    <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
-                    <a>{{ index +1 }} - {{ x }}</a>
-                   <!-- <a id="deleteitem">delete</a> -->
-                </li>
-            </ul>
-            <br>
-        </div>
+  <div>
+    <!-- help info -->
+    <!-- help info englisch -->
+    <p v-if="user.language==='English'" @mouseover="isHovering = true"
+      @mouseout="isHovering = false"
+      :class="{hovering: isHovering}" class="gethelp">
+      {{ isHovering ? "All the songs you disliked so far are listed here. You dont have to hear any of them ever again. In case you changed your taste (or if your brother used your account and made a mess of it), you can bring them back in the game by removing from this list" : "Help" }}
+    </p>
+    <!-- help info deutsch -->
+    <p v-if="user.language==='Deutsch'" @mouseover="isHovering = true"
+      @mouseout="isHovering = false"
+      :class="{hovering: isHovering}" class="gethelp">
+      {{ isHovering ? "Hier werden alle Lieder aufgelistet, die du bisher aussortiert hast. Wenn eines dieser Lieder am ausgewählten Sender gespielt wird, schaltet die App automatisch weg. Falls du deine Meinung irgendwann änderst, kannst kannst du ein Lied aus dieser Liste löschen, indem du es anklickst." : "Hilfe" }}
+    </p>
+    <!-- No¶-List -->
+    <div class="hideonmobile">
+      <div class="shmooheader">
+        <img class="nopeimageinshmoo" src="../assets/nope_button2_v3_png.png">
+        <h2 style="display:inline;">-List</h2>
+      </div>
+      <ul class="shmooul">
+        <!-- input feld englisch -->
+        <input v-if="user.language==='English'" id="searchshmoo" type="text" v-model="search" placeholder="search" >
+        <!-- input feld deutsch -->
+        <input v-if="user.language==='Deutsch'" id="searchshmoo" type="text" v-model="search" placeholder="suchen" >
+        <br/>
+        <li class="shmoolistitem" v-for="(x, index) in filteredShmoo" :key="x.id" v-on:click="selectShmooElement($event, x)">
+          <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
+          <a>{{ index +1 }} - {{ x }}</a>
+          <!-- <a id="deleteitem">delete</a> -->
+        </li>
+      </ul>
+      <br>
     </div>
+  </div>
 </template>
 
 <script>
@@ -108,6 +121,7 @@ export default {
 
 <style>
     .shmooheader {
+      display: inline;
         margin-top: 20px;
         margin-left: 4%;
     }
@@ -153,4 +167,9 @@ export default {
     .hovering{
       color: black
     }
+  .nopeimageinshmoo{ /*muss ich so nennen, weil wenn ichs gleich nenn wie in der anderen komponente dann überschreiben sie sich gegenseitig*/
+    width: 30px;
+    height: 30px;
+    margin-bottom: 13px;
+  }
 </style>

@@ -14,7 +14,7 @@
                 <router-link class="navitem hideonmobile" to="/profile">Profile</router-link>
             </li>
             <li v-if="auth=='loggedin'" class="navli">
-                <router-link class="navitem hideonmobile" to="/shmoo">No¶-List</router-link>
+                <router-link class="navitem hideonmobile" to="/shmoo"><img class="nopeimageinnavbar" src="../assets/nope_button2_v3_png.png">-List</router-link>
             </li>
             <li v-if="auth=='loggedin'" class="navli">
                 <router-link class="navitem hideonmobile" to="/playlist">Playlist</router-link>
@@ -100,6 +100,11 @@ export default {
         color: whitesmoke;
         text-decoration: none;
     }
+  .nopeimageinnavbar{
+    margin-bottom: 5px;
+    width: 20px;
+    height: 20px;
+  }
 
 @media (max-width: 500px) {
   .hideonmobile {

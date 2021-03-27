@@ -19,7 +19,7 @@
             <br class="hideondesktop">
             <br class="hideondesktop">
             <!-- now playing text englisch -->
-            <div v-if="user.language==='English'" class="nowplayingtextdiv">Now playing on Main Channel:</div>
+            <div v-if="user.language!=='Deutsch'" class="nowplayingtextdiv">Now playing on Main Channel:</div>
             <!-- now playing text deutsch -->
             <div v-if="user.language==='Deutsch'" class="nowplayingtextdiv">Jetzt auf meinem Sender:</div>
             <br>
@@ -33,8 +33,8 @@
         <!-- comments section und ein paar linebreaks -->
         <div>
             <!-- show/hide comment button englisch -->
-            <button v-if="showcommentsection === false && user.language==='English'" v-on:click="showcommentsection = true" class="commentbutton">Show Comments</button>
-            <button v-if="showcommentsection && user.language==='English'" v-on:click="showcommentsection = false" class="commentbutton">Hide Comments</button>
+            <button v-if="showcommentsection === false && user.language!=='Deutsch'" v-on:click="showcommentsection = true" class="commentbutton">Show Comments</button>
+            <button v-if="showcommentsection && user.language!=='Deutsch'" v-on:click="showcommentsection = false" class="commentbutton">Hide Comments</button>
             <!-- show/hide comment button deutsch -->
             <button v-if="showcommentsection === false && user.language==='Deutsch'" v-on:click="showcommentsection = true" class="commentbutton">Kommentare anzeigen</button>
             <button v-if="showcommentsection && user.language==='Deutsch'" v-on:click="showcommentsection = false" class="commentbutton">Kommentare verbergen</button>
@@ -51,7 +51,7 @@
                   </div>
                 </div>
                 <!-- neuer kommentar englisch -->
-                <form v-if="user.language==='English'" class="newcommentcontainer" v-on:submit="sendMessage">
+                <form v-if="user.language!=='Deutsch'" class="newcommentcontainer" v-on:submit="sendMessage">
                   <input class="newcommentinput" type="text" placeholder="write a comment" v-model="msg">
                   <button class="newcommentsendbutton" v-on:click="sendMessage" v-bind:disabled="!msg">Send</button>
                 </form>

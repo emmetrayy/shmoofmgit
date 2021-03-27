@@ -2,7 +2,7 @@
     <div>
         <!-- help info -->
         <!-- help info englisch -->
-        <p v-if="user.language==='English'" @mouseover="isHovering = true"
+        <p v-if="user.language!=='Deutsch'" @mouseover="isHovering = true"
             @mouseout="isHovering = false"
             :class="{hovering: isHovering}" class="gethelp">
             {{ isHovering ? "Skip the current song, by clicking the 'No¶' button (sad music smiley). The song will be added to your No¶-List and therefore skipped everytime it is played on the radio. If you open the app on a desktop device, you can also select the mode here -'alternativePlaylist Mode' will make the app switch to a random track from your playlist, whenever a No¶ title is detected, 'alternativeChannel Mode' will make it switch to another channel instead. -'MainChannel' defines the channel you will be listening to. -'AlternativeChannel' defines the channel that will be switched to (if you chose 'alternativeChannel Mode'), if a No¶ title is detected on your main channel." : "Help" }}
@@ -15,14 +15,14 @@
         </p>
         <div class="hideonmobile">
             <!-- überschrift englisch -->
-            <h2 v-if="user.language==='English'" class="profileheader">Profile</h2>
+            <h2 v-if="user.language!=='Deutsch'" class="profileheader">Profile</h2>
             <!-- überschrift deutsch -->
             <h2 v-if="user.language==='Deutsch'" class="profileheader">Profil</h2>
             <div class="profilecontainer">
                 <div style="margin:8px;">Username: <div style="display:inline;font-size:25px;font-weight:bold;">{{user.username}}</div></div>
                 <!-- Email -->
                 <!-- Email englisch -->
-                <div v-if="user.language==='English'">
+                <div v-if="user.language!=='Deutsch'">
                   <div><img v-on:click="showeditemail = true" class="editicon" src="../assets/edit_icon_v1_png.png">Email: {{user.email}}
                   </div>
                     <div v-if="showeditemail">
@@ -47,7 +47,7 @@
                 </div>
                 <!-- Language -->
                 <!-- Language englisch -->
-                <div v-if="user.language==='English'"><img v-on:click="showeditlanguage = true" class="editicon" src="../assets/edit_icon_v1_png.png">Language: {{user.language}}
+                <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditlanguage = true" class="editicon" src="../assets/edit_icon_v1_png.png">Language: {{user.language}}
                     <div v-if="showeditlanguage">
                         <label>Select Language</label>
                         <form class="profileform" v-on:submit="editLanguage">
@@ -72,7 +72,7 @@
                 </div>
                 <!-- Mode -->
                 <!-- Mode englisch -->
-                <div v-if="user.language==='English'"><img v-on:click="showeditmode = true" class="editicon" src="../assets/edit_icon_v1_png.png">Mode: {{user.mode}}
+                <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditmode = true" class="editicon" src="../assets/edit_icon_v1_png.png">Mode: {{user.mode}}
                     <div v-if="showeditmode">
                         <label>Select Mode</label>
                         <form class="profileform" v-on:submit="editMode">
@@ -97,7 +97,7 @@
                 </div>
                 <!-- MainChannel -->
                 <!-- MainChannel englisch -->
-                <div v-if="user.language==='English'"><img v-on:click="showeditmainchannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">MainChannel: {{user.channel.radioname}}
+                <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditmainchannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">MainChannel: {{user.channel.radioname}}
                     <div v-if="showeditmainchannel">
                         <label>Search By Country</label>
                         <form class="profileform" v-on:submit="filteredChannels">
@@ -130,7 +130,7 @@
                 </div>
                 <!-- AlternativeChannel -->
                 <!-- AlternativeChannel englisch -->
-                <div v-if="user.language==='English'"><img v-on:click="showeditalternativechannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">AlternativeChannel: {{user.alternativechannel.radioname}}
+                <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditalternativechannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">AlternativeChannel: {{user.alternativechannel.radioname}}
                     <div v-show="showeditalternativechannel">
                         <label>Search By Country</label>
                         <form class="profileform" v-on:submit="filteredAlternativeChannels">

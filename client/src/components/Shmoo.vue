@@ -2,7 +2,7 @@
   <div>
     <!-- help info -->
     <!-- help info englisch -->
-    <p v-if="user.language==='English'" @mouseover="isHovering = true"
+    <p v-if="user.language!=='Deutsch'" @mouseover="isHovering = true"
       @mouseout="isHovering = false"
       :class="{hovering: isHovering}" class="gethelp">
       {{ isHovering ? "All the songs you disliked so far are listed here. You dont have to hear any of them ever again. In case you changed your taste (or if your brother used your account and made a mess of it), you can bring them back in the game by removing from this list" : "Help" }}
@@ -21,7 +21,7 @@
       </div>
       <ul class="shmooul">
         <!-- input feld englisch -->
-        <input v-if="user.language==='English'" id="searchshmoo" type="text" v-model="search" placeholder="search" >
+        <input v-if="user.language!=='Deutsch'" id="searchshmoo" type="text" v-model="search" placeholder="search" >
         <!-- input feld deutsch -->
         <input v-if="user.language==='Deutsch'" id="searchshmoo" type="text" v-model="search" placeholder="suchen" >
         <br/>

@@ -47,7 +47,7 @@ app.post("/api/register", (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        language: 'eng',
+        language: 'Default/English',
         mode: 'alternativeChannel',
         channel: {radioname: 'unselected',
             radiourl: 'unselected',
@@ -297,18 +297,13 @@ app.get("/api/getcomments", (req, res) => {
     let getcommentsid = req.session.passport.user
     User.findOne({ _id: getcommentsid }, function (err, user) {
         var findchannel = user.channel.radioname
-        Radio.findOne({ radioname: findchannel}, function (err, radio) {
-            console.log(radio.comments.length)
-          /*
-            if (radio.comments.length > 15) {
-                console.log('zu lang')
-                console.log(radio.comments[0])
-                //radio.comments.shift();
-                radio.save();
-            }
-            */
+        if (findchannel == 'unselected') {
+          res.send({ comments: [] })
+        } else {
+          Radio.findOne({ radioname: findchannel}, function (err, radio) {
             res.send({ comments: radio.comments })
         });
+        }
     })
 });
 

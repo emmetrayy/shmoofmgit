@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <h2>Login</h2>
-        <form v-on:submit="login">
-            <input class="inputfield" v-model="userName" type="text" name="username" placeholder="username" /><br>
-            <input class="inputfield" v-model="passWord" type="text" name="password" placeholder="password" /><br>
-            <input class="submitbutton" type="submit" value="Login" />
-        </form>
-    </div>
+  <div>
+    <h2>Login</h2>
+    <form v-on:submit="login">
+      <input class="inputfield" v-model="userName" type="text" name="username" placeholder="username" /><br>
+      <input class="inputfield" v-model="passWord" type="text" name="password" placeholder="password" /><br>
+      <input class="submitbutton" type="submit" value="Login" />
+    </form>
+  </div>
 </template>
 
 <script>

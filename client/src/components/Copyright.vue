@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <p class="copyright">Copyright Edwin Pree, 2021</p>
-    </div>
+  <div>
+    <p class="copyright">Copyright Edwin Pree, 2021</p>
+  </div>
 </template>
 
 <script>
@@ -11,9 +11,9 @@ export default {
 </script>
 
 <style>
-    .copyright {
-        position: static;
-        float: right;
-        margin: 5px
-    }
+  .copyright {
+    position: static;
+    float: right;
+    margin: 5px
+  }
 </style>

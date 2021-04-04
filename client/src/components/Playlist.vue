@@ -1,52 +1,48 @@
 <template>
-    <div>
-        <!-- help info -->
-        <!-- help info englisch -->
-        <p v-if="user.language!=='Deutsch'" @mouseover="isHovering = true"
-            @mouseout="isHovering = false"
-            :class="{hovering: isHovering}" class="gethelp">
-            {{ isHovering ? "If you run the app in 'alternativePlaylist Mode' it will switch to a random song from your playlist, whenever shmoo is detected. It will play the song to the end and then automatically switch back to the radiochannel." : "Help" }}
-        </p>
-        <!-- help info deutsch -->
-        <p v-if="user.language==='Deutsch'" @mouseover="isHovering = true"
-            @mouseout="isHovering = false"
-            :class="{hovering: isHovering}" class="gethelp">
-            {{ isHovering ? "Wenn du 'alternativePlaylist Mode' ausgewählt hast, wechselt die App immer, wenn Shmoo auf deinem Sender läuft, automatisch auf ein zufällig ausgewähltes Lied aus deiner Playlist und danach wieder zurück auf den ausgewählten Sender." : "Hilfe" }}
-        </p>
-        <div>
-            <h2 class="privateplaylistheader">Playlist</h2>
-            <!-- upload info englisch -->
-            <p v-if="user.language!=='Deutsch'">You can upload up to 10 songs to your playlist.</p>
-            <!-- upload info deutsch -->
-            <p v-if="user.language==='Deutsch'">Du kannst bis zu 10 Lieder in deine Playlist hochladen.</p>
-            <!-- File Upload -->
-            <form @submit.prevent="sendFile" enctype="multipart/form-data">
-                <div>
-                    <label for="file">Upload File</label>
-                    <input class="selectfile"
-                        type="file"
-                        ref="file"
-                        @change="selectFile"
-                    />
-                </div>
-                <div>
-                    <button class="sendfilebutton" v-if="this.user.privateplaylist.length < 10 && this.fileselected == true">Upload</button>
-                </div>
-                <div class="messageclass" v-if="message">{{message}}</div>
-            </form>
-        </div>
-        <br>
-        <!-- Private Playlist -->
-        <div>
-            <ul class="playlistul">
-                <li class="playlistitem" v-for="(privateplaylistitem, index) in user.privateplaylist" :key="privateplaylistitem.id" v-on:click="playlistItemClicked($event, privateplaylistitem)">
-                    <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
-                    <a>{{ index +1 }} - {{ privateplaylistitem }}</a>
-                    <!--<a id="deleteitem">delete</a>-->
-                </li>
-            </ul>
-        </div>
+  <div>
+    <!-- help info englisch -->
+    <p class="gethelp" v-if="user.language!=='Deutsch'" @mouseover="helpHovered = true"
+          @mouseout="helpHovered = false">Help</p>
+    <div v-if="helpHovered===true" class="helptext">
+      <br>
+      <div>If you run the app in 'alternativePlaylist' mode it will switch to a random song from your playlist, whenever your channel is playing a song from your <img class="nopeintext" src="../assets/nope_button2_v3_png.png">-List. It will play the song to the end and then automatically switch back to your main channel.</div>
     </div>
+    <!-- help info deutsch -->
+    <p class="gethelp" v-if="user.language==='Deutsch'" @mouseover="hilfeHovered = true"
+          @mouseout="hilfeHovered = false">Hilfe</p>
+    <div v-if="hilfeHovered===true" class="helptext">
+      <br>
+      <div>Wenn du 'alternativePlaylist' Modus ausgewählt hast, wechselt die App immer, wenn auf deinem Sender ein Lied aus deiner <img class="nopeintext" src="../assets/nope_button2_v3_png.png">-List läuft, automatisch auf ein zufällig ausgewähltes Lied aus deiner Playlist und danach wieder zurück auf den ausgewählten Sender.</div>
+    </div>
+    <div>
+      <h2 style="margin-top: 20px;">Playlist</h2>
+      <!-- upload info englisch -->
+      <p style="text-align: center;" v-if="user.language!=='Deutsch'">You can upload up to 10 songs to your playlist.</p>
+      <!-- upload info deutsch -->
+      <p style="text-align: center;" v-if="user.language==='Deutsch'">Du kannst bis zu 10 Lieder in deine Playlist hochladen.</p>
+      <!-- File Upload -->
+      <form @submit.prevent="sendFile" enctype="multipart/form-data">
+        <div>
+          <label for="file">Upload File</label>
+          <input class="selectfile" type="file" ref="file" @change="selectFile"/>
+        </div>
+        <div>
+          <button class="sendfilebutton" v-if="this.user.privateplaylist.length < 10 && this.fileselected == true">Upload</button>
+        </div>
+        <div class="messageclass" v-if="message">{{message}}</div>
+      </form>
+    </div>
+    <br>
+    <!-- Private Playlist -->
+    <div>
+      <ul class="playlistul">
+        <li class="playlistitem" v-for="(privateplaylistitem, index) in user.privateplaylist" :key="privateplaylistitem.id" v-on:click="playlistItemClicked($event, privateplaylistitem)">
+          <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
+          <a>{{ index +1 }} - {{ privateplaylistitem }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -66,7 +62,8 @@ export default {
       },
       selectedplaylistitem: '',
       search: '',
-      isHovering: false,
+      helpHovered: false,
+      hilfeHovered: false,
       file: '',
       message: '',
       error: false,
@@ -168,63 +165,51 @@ export default {
 </script>
 
 <style>
-    .playlistheader {
-        margin-top: 20px;
-    }
-    .playlistul {
-        margin-left: 10px;
-        margin-top: 20px;
-        margin-right: 10px
-    }
-    .playlistitem {
-      width: fit-content;
-        list-style: none;
-        text-align: left;
-        /*border-style: solid;*/
-        /*margin-left: 15%;*/
-        /*margin-right: 15%;*/
-    }
-    .fullplaylistitem {
-        list-style: none;
-        color: cadetblue;
-    }
-    .playlistitem:hover {
-        cursor: pointer;
-        color: red
-    }
-    .selectfile {
-      border-radius: 5px;
-        background-color: lightslategrey;
-    }
-    .sendfilebutton {
-      border-radius: 10px;
-        background-color: cadetblue;
-    }
-    .messageclass {
-        color: blue;
-    }
-    #deleteitem {
-        background-color: darkred;
-        color: lightgrey;
-        float: right;
-        padding-left: 5px;
-        padding-right: 5px;
-    }
+  .gethelp {
+    float: right;
+    margin: 2%;
+    padding: 0px;
+    color: orangered;
+  }
+  .helptext{
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .nopeintext{
+    width: 20px;
+    height: 20px;
+    margin-bottom: 3px;
+  }
+  .selectfile {
+    border-radius: 5px;
+    background-color: lightslategrey;
+  }
+  .sendfilebutton {
+    border-radius: 10px;
+    background-color: cadetblue;
+  }
+  .messageclass {
+    color: blue;
+  }
+  .playlistul {
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-right: 10px
+  }
+  .playlistitem {
+    width: fit-content;
+    list-style: none;
+    text-align: left;
+    /*border-style: solid;*/
+    /*margin-left: 15%;*/
+    /*margin-right: 15%;*/
+  }
+  .playlistitem:hover {
+    cursor: pointer;
+    color: red
+  }
   .deleteicon{
     width: 40px;
     height: 40px;
   }
-    #searchplaylist {
-        color: lightgray;
-        background-color: cadetblue;
-    }
-    .gethelp {
-        float: right;
-        margin: 2%;
-        padding: 0px;
-        color: orangered;
-    }
-    .hovering{
-      color: black
-    }
 </style>

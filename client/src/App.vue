@@ -70,11 +70,11 @@ export default {
     },
     // neu die gesamte funktion, weil ich ja wie oben beschrieben beim laden des users die bestehenden kommentare reinziehen will
     getComments: function () {
-      let self = this
+      // let self = this
       console.log('inside getcomments in app.vue')
       axios.get('/api/getcomments')
         .then((response) => {
-          self.$set(this, 'comments', response.data.comments)
+          // self.$set(this, 'comments', response.data.comments)
           console.log(response.data.comments)
           this.messages = response.data.comments
         })

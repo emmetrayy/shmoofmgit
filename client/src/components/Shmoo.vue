@@ -1,18 +1,19 @@
 <template>
   <div>
-    <!-- help info -->
     <!-- help info englisch -->
-    <p v-if="user.language!=='Deutsch'" @mouseover="isHovering = true"
-      @mouseout="isHovering = false"
-      :class="{hovering: isHovering}" class="gethelp">
-      {{ isHovering ? "All the songs you disliked so far are listed here. You dont have to hear any of them ever again. In case you changed your taste (or if your brother used your account and made a mess of it), you can bring them back in the game by removing from this list" : "Help" }}
-    </p>
+    <p class="gethelp" v-if="user.language!=='Deutsch'" @mouseover="helpHovered = true"
+          @mouseout="helpHovered = false">Help</p>
+    <div v-if="helpHovered===true" class="helptext">
+      <br>
+      <div>All the songs you disliked so far are listed here. You dont have to hear any of them ever again. In case you changed your taste (or if your brother used your account and made a mess of it), you can bring them back in the game by removing from this list.</div>
+    </div>
     <!-- help info deutsch -->
-    <p v-if="user.language==='Deutsch'" @mouseover="isHovering = true"
-      @mouseout="isHovering = false"
-      :class="{hovering: isHovering}" class="gethelp">
-      {{ isHovering ? "Hier werden alle Lieder aufgelistet, die du bisher aussortiert hast. Wenn eines dieser Lieder am ausgewählten Sender gespielt wird, schaltet die App automatisch weg. Falls du deine Meinung irgendwann änderst, kannst kannst du ein Lied aus dieser Liste löschen, indem du es anklickst." : "Hilfe" }}
-    </p>
+    <p class="gethelp" v-if="user.language==='Deutsch'" @mouseover="hilfeHovered = true"
+          @mouseout="hilfeHovered = false">Hilfe</p>
+    <div v-if="hilfeHovered===true" class="helptext">
+      <br>
+      <div>Hier werden alle Lieder aufgelistet, die du bisher aussortiert hast. Wenn eines dieser Lieder am ausgewählten Sender gespielt wird, schaltet die App automatisch weg. Falls du deine Meinung irgendwann änderst, kannst kannst du ein Lied aus dieser Liste löschen, indem du es anklickst.</div>
+    </div>
     <!-- No¶-List -->
     <div class="hideonmobile">
       <div class="shmooheader">
@@ -50,7 +51,9 @@ export default {
       },
       selectedShmoo: '',
       search: '',
-      isHovering: false
+      // isHovering: false,
+      helpHovered: false,
+      hilfeHovered: false
     }
   },
   methods: {
@@ -120,53 +123,57 @@ export default {
 </script>
 
 <style>
-    .shmooheader {
-      display: inline;
-        margin-top: 20px;
-        margin-left: 4%;
-    }
-    .shmooul {
-        margin-left: 10px;
-        margin-top: 20px;
-        margin-right: 10px
-    }
-    .shmoolistitem {
-      width: fit-content;
-        list-style: none;
-        text-align: left;
-        /*border-style: solid*/
-    }
-    .shmoolistitem:hover {
-        cursor: pointer;
-        color: red
-    }
-    #deleteitem {
+  .gethelp {
+    float: right;
+    margin: 2%;
+    padding: 0px;
+    color: orangered;
+  }
+  .helptext{
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .shmooheader {
+    display: inline;
+    margin-top: 20px;
+    margin-left: 4%;
+  }
+  .shmooul {
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-right: 10px
+  }
+  .shmoolistitem {
+    width: fit-content;
+    list-style: none;
+    text-align: left;
+    /*border-style: solid*/
+  }
+  .shmoolistitem:hover {
+    cursor: pointer;
+    color: red
+  }
+  /*  #deleteitem {
         background-color: darkred;
         color: lightgrey;
         float: right;
         padding-left: 5px;
         padding-right: 5px;
-    }
+    } */
   .deleteicon{
     width: 40px;
     height: 40px;
   }
-    #searchshmoo {
-      border-radius: 5px;
-      border-color: black;
-        color: whitesmoke;
-        background-color: cadetblue;
-      margin-bottom: 30px;
-    }
-    .gethelp {
-        float: right;
-        margin: 2%;
-        padding: 0px;
-        color: orangered;
-    }
-    .hovering{
+  #searchshmoo {
+    border-radius: 5px;
+    border-color: black;
+    color: whitesmoke;
+    background-color: cadetblue;
+    margin-bottom: 30px;
+  }
+  /*  .hovering{
       color: black
-    }
+    } */
   .nopeimageinshmoo{ /*muss ich so nennen, weil wenn ichs gleich nenn wie in der anderen komponente dann überschreiben sie sich gegenseitig*/
     width: 30px;
     height: 30px;

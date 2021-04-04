@@ -1,29 +1,29 @@
 <template>
-    <div>
-        <ul class="navul">
-            <li v-if="auth=='loggedin'" v-on:click="logout" class="navlogout">
-                <router-link class="navlogoutitem" to="/login">Logout</router-link>
-            </li>
-            <li v-if="auth==''" class="navli">
-                <router-link class="navitem hideonmobile" to="/register">Register</router-link>
-            </li>
-            <li v-if="auth==''" class="navli">
-                <router-link class="navitem" to="/login">Login</router-link>
-            </li>
-            <li v-if="auth=='loggedin'" class="navli">
-                <router-link class="navitem hideonmobile" to="/profile">Profile</router-link>
-            </li>
-            <li v-if="auth=='loggedin'" class="navli">
-                <router-link class="navitem hideonmobile" to="/shmoo"><img class="nopeimageinnavbar" src="../assets/nope_button2_v3_png.png">-List</router-link>
-            </li>
-            <li v-if="auth=='loggedin'" class="navli">
-                <router-link class="navitem hideonmobile" to="/playlist">Playlist</router-link>
-            </li>
-            <li class="navli">
-                <router-link class="navforum" to="/forum">Forum</router-link>
-            </li>
-        </ul>
-    </div>
+  <div>
+    <ul class="navul">
+      <li v-if="auth=='loggedin'" v-on:click="logout" class="navlogout">
+        <router-link class="navlogoutitem" to="/login">Logout</router-link>
+      </li>
+      <li v-if="auth==''" class="navli">
+        <router-link class="navitem hideonmobile" to="/register">Register</router-link>
+      </li>
+      <li v-if="auth==''" class="navli">
+        <router-link class="navitem" to="/login">Login</router-link>
+      </li>
+      <li v-if="auth=='loggedin'" class="navli">
+        <router-link class="navitem hideonmobile" to="/profile">Profile</router-link>
+      </li>
+      <li v-if="auth=='loggedin'" class="navli">
+        <router-link class="navitem hideonmobile" to="/shmoo"><img class="nopeimageinnavbar" src="../assets/nope_button2_v3_png.png">-List</router-link>
+      </li>
+      <li v-if="auth=='loggedin'" class="navli">
+        <router-link class="navitem hideonmobile" to="/playlist">Playlist</router-link>
+      </li>
+      <li class="navli">
+        <router-link class="navforum" to="/forum">Forum</router-link>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -62,44 +62,44 @@ export default {
 </script>
 
 <style>
-    .navul {
-        list-style: none;
-      border-bottom-style: solid;
-      border-bottom-color: dimgrey;
-    }
-    .navli {
-        display: inline;
-    }
-    .navitem {
-        color: darkblue;
-        text-decoration: none;
-        margin-right: 12px;
-    }
-    .navitem:hover {
-        color: aqua;
-        text-decoration: none;
-    }
-    .navlogout {
-        color: darkred;
-        float: left;
-    }
-    .navlogoutitem {
-        color: darkred;
-        text-decoration: none;
-    }
-    .navlogoutitem:hover {
-        color: red;
-        text-decoration: none;
-    }
-    .navforum {
-        color: black;
-        text-decoration: none;
-        margin-left: 10px;
-    }
-    .navforum:hover {
-        color: whitesmoke;
-        text-decoration: none;
-    }
+  .navul {
+    list-style: none;
+    border-bottom-style: solid;
+    border-bottom-color: dimgrey;
+  }
+  .navli {
+    display: inline;
+  }
+  .navitem {
+    color: darkblue;
+    text-decoration: none;
+    margin-right: 12px;
+  }
+  .navitem:hover {
+    color: aqua;
+    text-decoration: none;
+  }
+  .navlogout {
+    color: darkred;
+    float: left;
+  }
+  .navlogoutitem {
+    color: darkred;
+    text-decoration: none;
+  }
+  .navlogoutitem:hover {
+    color: red;
+    text-decoration: none;
+  }
+  .navforum {
+    color: black;
+    text-decoration: none;
+    margin-left: 10px;
+  }
+  .navforum:hover {
+    color: whitesmoke;
+    text-decoration: none;
+  }
   .nopeimageinnavbar{
     margin-bottom: 5px;
     width: 20px;

@@ -2,14 +2,14 @@
     <div>
       <!-- Playerbuttons -->
       <div class="playericonscontainer">
-        <div class="playerbutton" v-on:click="playFunction"><img class="playericon" src="../assets/play_icon_v1_png.png"><img class="playericonoverlay" src="../assets/play_icon_v1darkgrey_png.png"></div>
-        <div class="playerbutton" v-on:click="muteFunction"><img class="playericon" src="../assets/mute_icon_v4_png.png"><img class="playericonoverlay" src="../assets/mute_icon_v4grey_png.png"></div>
-        <div class="playerbutton" v-on:click="unmuteFunction"><img class="playericon" src="../assets/unmute_icon_v4_png.png"><img class="playericonoverlay" src="../assets/unmute_icon_v4red_png.png"></div>
+        <div class="playerbutton" v-on:click="playFunction"><img key="playbuttonnormal" class="playericon" src="../assets/play_icon_v1_png.png"><img key="playbuttondark" class="playericonoverlay" src="../assets/play_icon_v1darkgrey_png.png"></div>
+        <div class="playerbutton" v-on:click="muteFunction"><img key="mutebuttonnormal" class="playericon" src="../assets/mute_icon_v4_png.png"><img key="mutebuttongrey" class="playericonoverlay" src="../assets/mute_icon_v4grey_png.png"></div>
+        <div class="playerbutton" v-on:click="unmuteFunction"><img key="unmutebuttonnormal" class="playericon" src="../assets/unmute_icon_v4_png.png"><img key="unmutebuttonred" class="playericonoverlay" src="../assets/unmute_icon_v4red_png.png"></div>
       </div>
         <br>
         <br>
         <!-- No¶ Button -->
-        <div class="nopebutton" v-on:click="lolFunction"><img class="nopeimage" src="../assets/nope_button2_v3_png.png"><img class="nopeoverlay" src="../assets/nope_button2_v3red_png.png"></div>
+        <div class="nopebutton" v-on:click="lolFunction"><img key="nopebuttonnormal" class="nopeimage" src="../assets/nope_button2_v3_png.png"><img key="nopebuttonred" class="nopeoverlay" src="../assets/nope_button2_v3red_png.png"></div>
         <!-- currentsong info output und etliche linebreaks -->
         <div>
             <br>
@@ -33,11 +33,11 @@
         <!-- comments section und ein paar linebreaks -->
         <div>
             <!-- show/hide comment button englisch -->
-            <button v-if="showcommentsection === false && user.language!=='Deutsch'" v-on:click="showcommentsection = true" class="commentbutton">Show Comments</button>
-            <button v-if="showcommentsection && user.language!=='Deutsch'" v-on:click="showcommentsection = false" class="commentbutton">Hide Comments</button>
+            <button v-if="showcommentsection === false && user.language!=='Deutsch'" v-on:click="showcommentsection = true" class="buttoncadetblue">Show Comments</button>
+            <button v-if="showcommentsection && user.language!=='Deutsch'" v-on:click="showcommentsection = false" class="buttoncadetblue">Hide Comments</button>
             <!-- show/hide comment button deutsch -->
-            <button v-if="showcommentsection === false && user.language==='Deutsch'" v-on:click="showcommentsection = true" class="commentbutton">Kommentare anzeigen</button>
-            <button v-if="showcommentsection && user.language==='Deutsch'" v-on:click="showcommentsection = false" class="commentbutton">Kommentare verbergen</button>
+            <button v-if="showcommentsection === false && user.language==='Deutsch'" v-on:click="showcommentsection = true" class="buttoncadetblue">Kommentare anzeigen</button>
+            <button v-if="showcommentsection && user.language==='Deutsch'" v-on:click="showcommentsection = false" class="buttoncadetblue">Kommentare verbergen</button>
             <div v-if="showcommentsection">
               <br>
               <!-- socket chat -->
@@ -69,15 +69,15 @@
             <br>
         </div>
         <!-- Primary Radio Player -->
-        <div class="hide"><p>Primary Radio Stream ( {{ user.channel.radioname }} )</p>
+        <div class="hideelement"><p>Primary Radio Stream ( {{ user.channel.radioname }} )</p>
             <audio width="300" height="48" controls="controls" id="primaryradiostream">type="audio/mpeg"/>Your browser does not support HTML5 audio. Please update your browser to view this media content.</audio>
         </div>
         <!-- Alternative Radio Player -->
-        <div class="hide"><p>Alternative Radio Stream ( {{ user.alternativechannel.radioname }} )</p>
+        <div class="hideelement"><p>Alternative Radio Stream ( {{ user.alternativechannel.radioname }} )</p>
             <audio width="300" height="48" controls="controls" id="alternativeradiostream">type="audio/mpeg"/>Your browser does not support HTML5 audio. Please update your browser to view this media content.</audio>
         </div>
         <!-- Playlist Player -->
-        <div class="hide"><p>Playlist Player</p>
+        <div class="hideelement"><p>Playlist Player</p>
             <audio id="playliststream" tabindex="0" controls="" type="audio/mpeg">
             </audio>
         </div>
@@ -456,12 +456,6 @@ export default {
 }
 </script>
 <style>
-  .hide {
-    display: none
-  }
-  .hideondesktop {
-    display: none;
-  }
   .playericonscontainer{
     margin-left: 10px;
     position: relative;
@@ -524,16 +518,6 @@ export default {
     cursor:grab;
     opacity: 20%;
   }
-  .commentbutton{
-    background-color: cadetblue;
-    border-radius: 10px;
-  }
-  .commentbutton:hover {
-    cursor: pointer;
-    color: lightgrey;
-    border-color: lightgrey;
-    background-color: lightseagreen;
-  }
   .nowplayingtextdiv {
     float: left;
     font-size: 14px;
@@ -593,12 +577,6 @@ export default {
   }
 
 @media (max-width: 800px) {
-  .hideonmobile {
-    display: none;
-  }
-  .hideondesktop {
-    display: block;
-  }
   .playericonscontainer{
     margin-left: 10%;
   }

@@ -16,9 +16,9 @@
   </div>
   <div class="hideonmobile">
     <!-- überschrift englisch -->
-    <h2 v-if="user.language!=='Deutsch'" class="profileheader">Profile</h2>
+    <h2 v-if="user.language!=='Deutsch'" class="headermargintop">Profile</h2>
     <!-- überschrift deutsch -->
-    <h2 v-if="user.language==='Deutsch'" class="profileheader">Profil</h2>
+    <h2 v-if="user.language==='Deutsch'" class="headermargintop">Profil</h2>
     <div class="profilecontainer">
       <div style="margin:8px;">Username: <div style="display:inline;font-size:25px;font-weight:bold;">{{user.username}}</div></div>
       <!-- Email englisch -->
@@ -28,7 +28,7 @@
         <div v-if="showeditemail">
           <label>New Email</label>
           <form v-on:submit="editEmail">
-            <input class="emailinput" type="text" name="email" /><br>
+            <input class="inputfield" type="text" name="email" /><br>
             <input class="profileeditbutton" type="submit" value="change email" />
             <button class="profileeditbutton" v-on:click="showeditemail = false">undo</button>
           </form>
@@ -41,7 +41,7 @@
           <div v-if="showeditemail">
             <label>Neue Email Adresse</label>
             <form v-on:submit="editEmail">
-              <input class="emailinput" type="text" name="email" /><br>
+              <input class="inputfield" type="text" name="email" /><br>
               <input class="profileeditbutton" type="submit" value="Email ändern" />
               <button class="profileeditbutton" v-on:click="showeditemail = false">zurück</button>
             </form>
@@ -51,7 +51,7 @@
       <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditlanguage = true" class="editicon" src="../assets/edit_icon_v1_png.png">Language: {{user.language}}
         <div v-if="showeditlanguage">
           <label>Select Language</label>
-          <form class="profileform" v-on:submit="editLanguage">
+          <form class="displayinline" v-on:submit="editLanguage">
             <select class="profileeditother" v-model="user.language">
               <option v-for="mylanguage in languages" :key="mylanguage.id">{{mylanguage}}</option>
             </select>
@@ -64,7 +64,7 @@
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditlanguage = true" class="editicon" src="../assets/edit_icon_v1_png.png">Sprache: {{user.language}}
         <div v-if="showeditlanguage">
           <label>Sprache auswählen</label>
-          <form class="profileform" v-on:submit="editLanguage">
+          <form class="displayinline" v-on:submit="editLanguage">
             <select class="profileeditother" v-model="user.language">
               <option v-for="mylanguage in languages" :key="mylanguage.id">{{mylanguage}}</option>
             </select>
@@ -77,7 +77,7 @@
       <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditmode = true" class="editicon" src="../assets/edit_icon_v1_png.png">Mode: {{user.mode}}
         <div v-if="showeditmode">
           <label>Select Mode</label>
-          <form class="profileform" v-on:submit="editMode">
+          <form class="displayinline" v-on:submit="editMode">
             <select class="profileeditother" v-model="user.mode">
               <option v-for="vuemode in modes" :key="vuemode.id">{{vuemode}}</option>
             </select>
@@ -90,7 +90,7 @@
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditmode = true" class="editicon" src="../assets/edit_icon_v1_png.png">Modus: {{user.mode}}
         <div v-if="showeditmode">
           <label>Modus auswählen</label>
-          <form class="profileform" v-on:submit="editMode">
+          <form class="displayinline" v-on:submit="editMode">
             <select class="profileeditother" v-model="user.mode">
               <option v-for="vuemode in modes" :key="vuemode.id">{{vuemode}}</option>
             </select>
@@ -103,7 +103,7 @@
       <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditmainchannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">MainChannel: {{user.channel.radioname}}
         <div v-if="showeditmainchannel">
           <label>Search By Country</label>
-          <form class="profileform" v-on:submit="filteredChannels">
+          <form class="displayinline" v-on:submit="filteredChannels">
             <select class="profileeditother" v-model="selectedcountry">
               <option value="" disabled selected>select</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
@@ -121,7 +121,7 @@
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditmainchannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">Mein Sender: {{user.channel.radioname}}
         <div v-if="showeditmainchannel">
           <label>nach Ländern filtern</label>
-          <form class="profileform" v-on:submit="filteredChannels">
+          <form class="displayinline" v-on:submit="filteredChannels">
             <select class="profileeditother" v-model="selectedcountry">
               <option value="" disabled selected>auswählen</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
@@ -139,7 +139,7 @@
       <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditalternativechannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">AlternativeChannel: {{user.alternativechannel.radioname}}
         <div v-show="showeditalternativechannel">
           <label>Search By Country</label>
-          <form class="profileform" v-on:submit="filteredAlternativeChannels">
+          <form class="displayinline" v-on:submit="filteredAlternativeChannels">
             <select class="profileeditother" v-model="selectedcountryalternative">
               <option value="" disabled selected>select</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
@@ -157,7 +157,7 @@
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditalternativechannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">Alternativ Sender: {{user.alternativechannel.radioname}}
         <div v-show="showeditalternativechannel">
           <label>nach Ländern filtern</label>
-          <form class="profileform" v-on:submit="filteredAlternativeChannels">
+          <form class="displayinline" v-on:submit="filteredAlternativeChannels">
             <select class="profileeditother" v-model="selectedcountryalternative">
               <option value="" disabled selected>auswählen</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
@@ -425,31 +425,9 @@ export default {
 }
 </script>
 <style>
-  .gethelp {
-    float: right;
-    margin: 2%;
-    padding: 0px;
-    color: orangered;
-  }
-  .helptext{
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-  .nopeintext{
-    width: 20px;
-    height: 20px;
-    margin-bottom: 3px;
-  }
-   /* a {
-        color: blue;
-        text-decoration: underline
-    }*/
   label {
     color: lightslategrey;
     margin-bottom: 0px;
-  }
-  .profileheader {
-    margin-top: 20px;
   }
   .profilecontainer {
     background-color: gainsboro;
@@ -457,12 +435,6 @@ export default {
     padding-bottom: 20px;
     text-align: left;
   }
-  .profileform {
-    display: inline
-  }
-  /*  .hovering{
-      color: black
-    } */
   .editicon{
     width: 40px;
     height: 40px;
@@ -484,14 +456,6 @@ export default {
     background-color: slategray;
     color: whitesmoke;
   }
-  .emailinput {
-    border-radius: 5px;
-    border-style: solid;
-    border-color: black;
-  }
-  /* .showeditdiv{
-      display: inline;
-    } */
   .radiochannelitem {
     list-style: none;
     text-align: left;
@@ -502,17 +466,5 @@ export default {
     color: cadetblue;
     cursor: pointer;
   }
-
-@media (max-width: 500px) {
-  .hideonmobile {
-    display: none;
-  }
-}
-
-@media (min-width: 500px) {
-  .hideondesktop {
-    display: none;
-  }
-}
 
 </style>

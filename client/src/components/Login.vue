@@ -59,18 +59,4 @@ export default {
 }
 </script>
 <style>
-  .inputfield {
-    border-color: black;
-    border-radius: 5px;
-  }
-  .submitbutton{
-    border-radius: 10px;
-    background-color: cadetblue;
-  }
-  .submitbutton:hover {
-    cursor: pointer;
-    color: lightgrey;
-    border-color: lightgrey;
-    background-color: lightseagreen;
-  }
 </style>

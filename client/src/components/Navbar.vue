@@ -4,22 +4,22 @@
       <li v-if="auth=='loggedin'" v-on:click="logout" class="navlogout">
         <router-link class="navlogoutitem" to="/login">Logout</router-link>
       </li>
-      <li v-if="auth==''" class="navli">
+      <li v-if="auth==''" class="displayinline">
         <router-link class="navitem hideonmobile" to="/register">Register</router-link>
       </li>
-      <li v-if="auth==''" class="navli">
+      <li v-if="auth==''" class="displayinline">
         <router-link class="navitem" to="/login">Login</router-link>
       </li>
-      <li v-if="auth=='loggedin'" class="navli">
+      <li v-if="auth=='loggedin'" class="displayinline">
         <router-link class="navitem hideonmobile" to="/profile">Profile</router-link>
       </li>
-      <li v-if="auth=='loggedin'" class="navli">
+      <li v-if="auth=='loggedin'" class="displayinline">
         <router-link class="navitem hideonmobile" to="/shmoo"><img class="nopeimageinnavbar" src="../assets/nope_button2_v3_png.png">-List</router-link>
       </li>
-      <li v-if="auth=='loggedin'" class="navli">
+      <li v-if="auth=='loggedin'" class="displayinline">
         <router-link class="navitem hideonmobile" to="/playlist">Playlist</router-link>
       </li>
-      <li class="navli">
+      <li class="displayinline">
         <router-link class="navforum" to="/forum">Forum</router-link>
       </li>
     </ul>
@@ -67,9 +67,6 @@ export default {
     border-bottom-style: solid;
     border-bottom-color: dimgrey;
   }
-  .navli {
-    display: inline;
-  }
   .navitem {
     color: darkblue;
     text-decoration: none;
@@ -105,11 +102,5 @@ export default {
     width: 20px;
     height: 20px;
   }
-
-@media (max-width: 500px) {
-  .hideonmobile {
-    display: none;
-  }
-}
 
 </style>

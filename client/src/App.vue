@@ -42,7 +42,6 @@ export default {
     },
     emitPassUserData: function () {
       var data = this.user
-      console.log(data)
       setTimeout(function () {
         console.log('emitPassUserData fired on App.vue')
         EventBus.$emit('passUserData', data)
@@ -75,7 +74,6 @@ export default {
       axios.get('/api/getcomments')
         .then((response) => {
           // self.$set(this, 'comments', response.data.comments)
-          console.log(response.data.comments)
           this.messages = response.data.comments
         })
         .catch((errors) => {
@@ -162,9 +160,84 @@ hr {
     border-color: black;
 }
 
-@media (max-width: 500px) {
-    .hideonmobile {
-        display: none;
-    }
+/* ab hier ausgegliedertes styling aus den komponenten */
+.hideelement {
+  display: none
 }
+.displayinline {
+  display: inline;
+}
+.headermargintop {
+  margin-top: 20px;
+}
+.gethelp {
+  float: right;
+  margin: 2%;
+  padding: 0px;
+  color: orangered;
+}
+.helptext{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.nopeintext{
+  width: 20px;
+  height: 20px;
+  margin-bottom: 3px;
+}
+.deleteicon{
+  width: 40px;
+  height: 40px;
+}
+.buttoncadetblue{
+  background-color: cadetblue;
+  border-radius: 10px;
+}
+.buttoncadetblue:hover {
+  cursor: pointer;
+  color: lightgrey;
+  border-color: lightgrey;
+  background-color: lightseagreen;
+}
+.inputfield {
+  border-color: black;
+  border-radius: 5px;
+}
+.submitbutton{
+  border-radius: 10px;
+  background-color: cadetblue;
+}
+.submitbutton:hover {
+  cursor: pointer;
+  color: lightgrey;
+  border-color: lightgrey;
+  background-color: lightseagreen;
+}
+.unorderedlist {
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-right: 10px
+}
+.listitem {
+  width: fit-content;
+  list-style: none;
+  text-align: left;
+}
+.listitem:hover {
+  cursor: pointer;
+  color: red
+}
+
+@media (max-width: 800px) {
+  .hideonmobile {
+    display: none;
+  }
+}
+
+@media (min-width: 800px) {
+  .hideondesktop {
+    display: none;
+  }
+}
+
 </style>

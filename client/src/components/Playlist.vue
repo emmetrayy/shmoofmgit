@@ -15,7 +15,7 @@
       <div>Wenn du 'alternativePlaylist' Modus ausgewählt hast, wechselt die App immer, wenn auf deinem Sender ein Lied aus deiner <img class="nopeintext" src="../assets/nope_button2_v3_png.png">-List läuft, automatisch auf ein zufällig ausgewähltes Lied aus deiner Playlist und danach wieder zurück auf den ausgewählten Sender.</div>
     </div>
     <div>
-      <h2 style="margin-top: 20px;">Playlist</h2>
+      <h2 class="headermargintop">Playlist</h2>
       <!-- upload info englisch -->
       <p style="text-align: center;" v-if="user.language!=='Deutsch'">You can upload up to 10 songs to your playlist.</p>
       <!-- upload info deutsch -->
@@ -27,16 +27,16 @@
           <input class="selectfile" type="file" ref="file" @change="selectFile"/>
         </div>
         <div>
-          <button class="sendfilebutton" v-if="this.user.privateplaylist.length < 10 && this.fileselected == true">Upload</button>
+          <button class="buttoncadetblue" v-if="this.user.privateplaylist.length < 10 && this.fileselected == true">Upload</button>
         </div>
-        <div class="messageclass" v-if="message">{{message}}</div>
+        <div style="color: blue;" v-if="message">{{message}}</div>
       </form>
     </div>
     <br>
     <!-- Private Playlist -->
     <div>
-      <ul class="playlistul">
-        <li class="playlistitem" v-for="(privateplaylistitem, index) in user.privateplaylist" :key="privateplaylistitem.id" v-on:click="playlistItemClicked($event, privateplaylistitem)">
+      <ul class="unorderedlist">
+        <li class="listitem" v-for="(privateplaylistitem, index) in user.privateplaylist" :key="privateplaylistitem.id" v-on:click="playlistItemClicked($event, privateplaylistitem)">
           <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
           <a>{{ index +1 }} - {{ privateplaylistitem }}</a>
         </li>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import router from '../router'
+// import router from '../router'
 import axios from 'axios'
 import EventBus from './EventBus'
 
@@ -165,51 +165,8 @@ export default {
 </script>
 
 <style>
-  .gethelp {
-    float: right;
-    margin: 2%;
-    padding: 0px;
-    color: orangered;
-  }
-  .helptext{
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-  .nopeintext{
-    width: 20px;
-    height: 20px;
-    margin-bottom: 3px;
-  }
   .selectfile {
     border-radius: 5px;
     background-color: lightslategrey;
-  }
-  .sendfilebutton {
-    border-radius: 10px;
-    background-color: cadetblue;
-  }
-  .messageclass {
-    color: blue;
-  }
-  .playlistul {
-    margin-left: 10px;
-    margin-top: 20px;
-    margin-right: 10px
-  }
-  .playlistitem {
-    width: fit-content;
-    list-style: none;
-    text-align: left;
-    /*border-style: solid;*/
-    /*margin-left: 15%;*/
-    /*margin-right: 15%;*/
-  }
-  .playlistitem:hover {
-    cursor: pointer;
-    color: red
-  }
-  .deleteicon{
-    width: 40px;
-    height: 40px;
   }
 </style>

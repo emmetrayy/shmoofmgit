@@ -18,15 +18,15 @@
     <div class="hideonmobile">
       <div class="shmooheader">
         <img class="nopeimageinshmoo" src="../assets/nope_button2_v3_png.png">
-        <h2 style="display:inline;">-List</h2>
+        <h2 class="displayinline">-List</h2>
       </div>
-      <ul class="shmooul">
+      <ul class="unorderedlist">
         <!-- input feld englisch -->
         <input v-if="user.language!=='Deutsch'" id="searchshmoo" type="text" v-model="search" placeholder="search" >
         <!-- input feld deutsch -->
         <input v-if="user.language==='Deutsch'" id="searchshmoo" type="text" v-model="search" placeholder="suchen" >
         <br/>
-        <li class="shmoolistitem" v-for="(x, index) in filteredShmoo" :key="x.id" v-on:click="selectShmooElement($event, x)">
+        <li class="listitem" v-for="(x, index) in filteredShmoo" :key="x.id" v-on:click="selectShmooElement($event, x)">
           <img class="deleteicon" src="../assets/delete_icon_v1_png.png">
           <a>{{ index +1 }} - {{ x }}</a>
           <!-- <a id="deleteitem">delete</a> -->
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import router from '../router'
+// import router from '../router'
 import axios from 'axios'
 import EventBus from './EventBus'
 
@@ -123,46 +123,10 @@ export default {
 </script>
 
 <style>
-  .gethelp {
-    float: right;
-    margin: 2%;
-    padding: 0px;
-    color: orangered;
-  }
-  .helptext{
-    margin-left: 5px;
-    margin-right: 5px;
-  }
   .shmooheader {
     display: inline;
     margin-top: 20px;
     margin-left: 4%;
-  }
-  .shmooul {
-    margin-left: 10px;
-    margin-top: 20px;
-    margin-right: 10px
-  }
-  .shmoolistitem {
-    width: fit-content;
-    list-style: none;
-    text-align: left;
-    /*border-style: solid*/
-  }
-  .shmoolistitem:hover {
-    cursor: pointer;
-    color: red
-  }
-  /*  #deleteitem {
-        background-color: darkred;
-        color: lightgrey;
-        float: right;
-        padding-left: 5px;
-        padding-right: 5px;
-    } */
-  .deleteicon{
-    width: 40px;
-    height: 40px;
   }
   #searchshmoo {
     border-radius: 5px;
@@ -171,9 +135,6 @@ export default {
     background-color: cadetblue;
     margin-bottom: 30px;
   }
-  /*  .hovering{
-      color: black
-    } */
   .nopeimageinshmoo{ /*muss ich so nennen, weil wenn ichs gleich nenn wie in der anderen komponente dann überschreiben sie sich gegenseitig*/
     width: 30px;
     height: 30px;

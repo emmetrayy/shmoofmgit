@@ -51,7 +51,8 @@ app.post("/api/register", (req, res) => {
         mode: 'alternativeChannel',
         channel: {radioname: 'unselected',
             radiourl: 'unselected',
-            nowplayingurl: 'unselected'
+            nowplayingurl: 'https://meta.radio886.at/886/11153?_=1582921071205', // achtung das ist nur ein hardcoded placeholder
+            comments: []
         },
         alternativechannel: {radioname: 'unselected',
             radiourl: 'unselected',

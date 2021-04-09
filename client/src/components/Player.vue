@@ -2,14 +2,14 @@
     <div>
       <!-- Playerbuttons -->
       <div class="playericonscontainer">
-        <div class="playerbutton" v-on:click="playFunction"><img key="playbuttonnormal" class="playericon" src="../assets/play_icon_v1_png.png"><img key="playbuttondark" class="playericonoverlay" src="../assets/play_icon_v1darkgrey_png.png"></div>
-        <div class="playerbutton" v-on:click="muteFunction"><img key="mutebuttonnormal" class="playericon" src="../assets/mute_icon_v4_png.png"><img key="mutebuttongrey" class="playericonoverlay" src="../assets/mute_icon_v4grey_png.png"></div>
-        <div class="playerbutton" v-on:click="unmuteFunction"><img key="unmutebuttonnormal" class="playericon" src="../assets/unmute_icon_v4_png.png"><img key="unmutebuttonred" class="playericonoverlay" src="../assets/unmute_icon_v4red_png.png"></div>
+        <div class="playerbutton" v-on:click="playFunction"><img class="playericon" src="../assets/play_icon_v1_png.png"><img class="playericonoverlay" src="../assets/play_icon_v1darkgrey_png.png"></div>
+        <div class="playerbutton" v-on:click="muteFunction"><img class="playericon" src="../assets/mute_icon_v4_png.png"><img class="playericonoverlay" src="../assets/mute_icon_v4grey_png.png"></div>
+        <div class="playerbutton" v-on:click="unmuteFunction"><img class="playericon" src="../assets/unmute_icon_v4_png.png"><img class="playericonoverlay" src="../assets/unmute_icon_v4red_png.png"></div>
       </div>
         <br>
         <br>
         <!-- No¶ Button -->
-        <div class="nopebutton" v-on:click="lolFunction"><img key="nopebuttonnormal" class="nopeimage" src="../assets/nope_button2_v3_png.png"><img key="nopebuttonred" class="nopeoverlay" src="../assets/nope_button2_v3red_png.png"></div>
+        <div class="nopebutton" v-on:click="lolFunction"><img class="nopeimage" src="../assets/nope_button2_v3_png.png"><img class="nopeoverlay" src="../assets/nope_button2_v3red_png.png"></div>
         <!-- currentsong info output und etliche linebreaks -->
         <div>
             <br>
@@ -158,7 +158,7 @@ export default {
         } else if (userchannelname == 'Radio Wien') {
           this.currentsong = response.data[0].items[12].title + ' - ' + response.data[0].items[12].interpreter
         } else {
-          this.currentsong = 'nixe dada'
+          this.currentsong = 'Select A Channel!'
         }
       } catch (error) {
         console.log(error)
@@ -380,39 +380,6 @@ export default {
     reloadPage: function () {
       location.reload()
     },
-    alertCheck: function () {
-      var that = this
-      setTimeout(function () {
-        that.selectChannelAlert()
-        that.selectAlternativeChannelAlert()
-        that.primaryEqualsAlternativeAlert()
-      }, 5000)
-    },
-    // alert wenn channel noch nicht ausgewählt ist
-    selectChannelAlert: function () {
-      // eslint-disable-next-line
-      if (this.user.channel.radioname == 'unselected') {
-        alert('New Here? Select a MainChannel first of all!')
-      }
-    },
-    // alert wenn alternativ channel noch nicht ausgewählt ist
-    selectAlternativeChannelAlert: function () {
-      // eslint-disable-next-line
-      if (this.user.alternativechannel.radioname == 'unselected' && this.user.mode == 'alternativeChannel' && this.user.channel.radioname !== 'unselected') {
-        alert('... aaand an AlternativeChannel or change to alternativePlaylist Mode and add your playlist! - better choose an AlternativeChannel anyway.')
-        var primaryChannel = document.getElementById('primaryradiostream')
-        primaryChannel.pause()
-      }
-    },
-    // alert falls channel und alternative channel gleich sind und channel switch mode läuft
-    primaryEqualsAlternativeAlert: function () {
-      // eslint-disable-next-line
-      if (this.user.channel.radioname == this.user.alternativechannel.radioname && this.user.mode == 'alternativeChannel' && this.user.channel.radioname !== 'unselected') {
-        alert('MainChannel and AlternativeChannel should not be the same in alternativeChannel Mode! Please change one of them!')
-        var primaryChannel = document.getElementById('primaryradiostream')
-        primaryChannel.pause()
-      }
-    },
     // wird beim laden der seite aufgerufen und aktiviert alle x sekunden die notwendigen funktionen
     update: function () {
       var that = this
@@ -444,7 +411,6 @@ export default {
     this.setPrimaryChannelSRC()
     this.setAlternativeChannelSRC()
     this.update()
-    this.alertCheck()
     EventBus.$on('passUserData', (data) => {
       that.user = data
     })

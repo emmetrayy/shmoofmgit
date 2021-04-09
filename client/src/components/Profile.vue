@@ -101,6 +101,7 @@
       </div>
       <!-- MainChannel englisch -->
       <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditmainchannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">MainChannel: {{user.channel.radioname}}
+        <div class="veryalerting" v-if="noChannelSelected===true">Select A Channel!</div>
         <div v-if="showeditmainchannel">
           <label>Search By Country</label>
           <form class="displayinline" v-on:submit="filteredChannels">
@@ -119,6 +120,7 @@
       </div>
       <!-- MainChannel deutsch -->
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditmainchannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">Mein Sender: {{user.channel.radioname}}
+        <div class="veryalerting" v-if="noChannelSelected===true">Wähle einen Sender aus!</div>
         <div v-if="showeditmainchannel">
           <label>nach Ländern filtern</label>
           <form class="displayinline" v-on:submit="filteredChannels">
@@ -137,6 +139,8 @@
       </div>
       <!-- AlternativeChannel englisch -->
       <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditalternativechannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">AlternativeChannel: {{user.alternativechannel.radioname}}
+        <div class="veryalerting" v-if="noAlternativeChannelSelected===true">Select An AlternativeChannel!</div>
+        <div class="veryalerting" v-if="bothChannelsEqual===true">MainChannel and AlternativeChannel cannot be the same!</div>
         <div v-show="showeditalternativechannel">
           <label>Search By Country</label>
           <form class="displayinline" v-on:submit="filteredAlternativeChannels">
@@ -155,6 +159,8 @@
       </div>
       <!-- AlternativeChannel deutsch -->
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditalternativechannel = true" class="editicon" src="../assets/edit_icon_v1_png.png">Alternativ Sender: {{user.alternativechannel.radioname}}
+        <div class="veryalerting" v-if="noAlternativeChannelSelected===true">Wähle einen Alternativ Sender aus!</div>
+        <div class="veryalerting" v-if="bothChannelsEqual===true">Mein Sender und Alternativ Sender müssen unterschiedlich sein!</div>
         <div v-show="showeditalternativechannel">
           <label>nach Ländern filtern</label>
           <form class="displayinline" v-on:submit="filteredAlternativeChannels">
@@ -226,7 +232,10 @@ export default {
       selectedcountry: '',
       selectedcountryalternative: '',
       filteredchannels: [],
-      filteredalternativechannels: []
+      filteredalternativechannels: [],
+      noChannelSelected: false,
+      noAlternativeChannelSelected: false,
+      bothChannelsEqual: false
     }
   },
   methods: {
@@ -402,6 +411,42 @@ export default {
         that.reloadPage()
       }, 1000)
     },
+    
+    // neu
+    alertCheck: function () {
+      console.log('inside alertcheck')
+      var that = this
+      setTimeout(function () {
+        that.selectChannelAlert()
+        that.selectAlternativeChannelAlert()
+        that.primaryEqualsAlternativeAlert()
+      }, 5000)
+    },
+    // neu
+    // alert wenn channel noch nicht ausgewählt ist
+    selectChannelAlert: function () {
+      console.log('inside selectChannelAlert')
+      // eslint-disable-next-line
+      if (this.user.channel.radioname == 'unselected') {
+        this.noChannelSelected = true
+      }
+    },
+    // neu
+    // alert wenn alternativ channel noch nicht ausgewählt ist
+    selectAlternativeChannelAlert: function () {
+      // eslint-disable-next-line
+      if (this.user.alternativechannel.radioname == 'unselected') {
+        this.noAlternativeChannelSelected = true
+      }
+    },
+    // neu
+    // alert falls channel und alternative channel gleich sind
+    primaryEqualsAlternativeAlert: function () {
+      // eslint-disable-next-line
+      if (this.user.channel.radioname == this.user.alternativechannel.radioname) {
+        this.bothChannelsEqual = true
+      }
+    },
     // wird aktiviert wenn der shmoo zuende ist und man wieder auf den ursprünglichen sender zurück will - einfach zurückschalten funktioniert nicht weil der player dort weiterspielt wo er stehengeblieben ist. nach reloadPage greifen die mounted funktionen und damit spielt auch der ursprüngliche sender wieder (von der aktuellen stelle weg)
     reloadPage: function () {
       location.reload()
@@ -413,6 +458,7 @@ export default {
     this.getRadioData()
     this.emitLoggedInMethod()
     this.emitRequestData()
+    this.alertCheck() // neu
     EventBus.$on('passUserData', (data) => {
       that.user = data
     })
@@ -465,6 +511,11 @@ export default {
   .radiochannelitem:hover {
     color: cadetblue;
     cursor: pointer;
+  }
+  .veryalerting{
+    font-size: 48px;
+    color: red;
+    text-align: center;
   }
 
 </style>

@@ -52,10 +52,9 @@
         <div v-if="showeditlanguage">
           <label>Select Language</label>
           <form class="displayinline" v-on:submit="editLanguage">
-            <select class="profileeditother" v-model="user.language">
+            <select class="profileeditother" v-model="user.language" v-on:change="editLanguage">
               <option v-for="mylanguage in languages" :key="mylanguage.id">{{mylanguage}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="save" />
             <button class="profileeditbutton" v-on:click="showeditlanguage = false">undo</button>
           </form>
         </div>
@@ -64,11 +63,10 @@
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditlanguage = true" class="editicon" src="../assets/edit_icon_v1_png.png">Sprache: {{user.language}}
         <div v-if="showeditlanguage">
           <label>Sprache auswählen</label>
-          <form class="displayinline" v-on:submit="editLanguage">
-            <select class="profileeditother" v-model="user.language">
+          <form class="displayinline">
+            <select class="profileeditother" v-model="user.language" v-on:change="editLanguage">
               <option v-for="mylanguage in languages" :key="mylanguage.id">{{mylanguage}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="speichern" />
             <button class="profileeditbutton" v-on:click="showeditlanguage = false">zurück</button>
           </form>
         </div>
@@ -77,11 +75,10 @@
       <div v-if="user.language!=='Deutsch'"><img v-on:click="showeditmode = true" class="editicon" src="../assets/edit_icon_v1_png.png">Mode: {{user.mode}}
         <div v-if="showeditmode">
           <label>Select Mode</label>
-          <form class="displayinline" v-on:submit="editMode">
-            <select class="profileeditother" v-model="user.mode">
+          <form class="displayinline">
+            <select class="profileeditother" v-model="user.mode" v-on:change="editMode">
               <option v-for="vuemode in modes" :key="vuemode.id">{{vuemode}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="save" />
             <button class="profileeditbutton" v-on:click="showeditmode = false">undo</button>
           </form>
         </div>
@@ -90,11 +87,10 @@
       <div v-if="user.language==='Deutsch'"><img v-on:click="showeditmode = true" class="editicon" src="../assets/edit_icon_v1_png.png">Modus: {{user.mode}}
         <div v-if="showeditmode">
           <label>Modus auswählen</label>
-          <form class="displayinline" v-on:submit="editMode">
-            <select class="profileeditother" v-model="user.mode">
+          <form class="displayinline">
+            <select class="profileeditother" v-model="user.mode" v-on:change="editMode">
               <option v-for="vuemode in modes" :key="vuemode.id">{{vuemode}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="speichern" />
             <button class="profileeditbutton" v-on:click="showeditmode = false">zurück</button>
           </form>
         </div>
@@ -104,12 +100,11 @@
         <div class="veryalerting" v-if="noChannelSelected===true">Select A Channel!</div>
         <div v-if="showeditmainchannel">
           <label>Search By Country</label>
-          <form class="displayinline" v-on:submit="filteredChannels">
-            <select class="profileeditother" v-model="selectedcountry">
+          <form class="displayinline">
+            <select class="profileeditother" v-model="selectedcountry" v-on:change="filteredChannels">
               <option value="" disabled selected>select</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="filter" />
             <button class="profileeditbutton" v-on:click="showeditmainchannel = false">undo</button>
           </form>
           <!--eslint-disable-next-line-->
@@ -123,12 +118,11 @@
         <div class="veryalerting" v-if="noChannelSelected===true">Wähle einen Sender aus!</div>
         <div v-if="showeditmainchannel">
           <label>nach Ländern filtern</label>
-          <form class="displayinline" v-on:submit="filteredChannels">
-            <select class="profileeditother" v-model="selectedcountry">
+          <form class="displayinline">
+            <select class="profileeditother" v-model="selectedcountry" v-on:change="filteredChannels">
               <option value="" disabled selected>auswählen</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="filtern" />
             <button class="profileeditbutton" v-on:click="showeditmainchannel = false">zurück</button>
           </form>
           <!--eslint-disable-next-line-->
@@ -143,12 +137,11 @@
         <div class="veryalerting" v-if="bothChannelsEqual===true">MainChannel and AlternativeChannel cannot be the same!</div>
         <div v-show="showeditalternativechannel">
           <label>Search By Country</label>
-          <form class="displayinline" v-on:submit="filteredAlternativeChannels">
-            <select class="profileeditother" v-model="selectedcountryalternative">
+          <form class="displayinline">
+            <select class="profileeditother" v-model="selectedcountryalternative" v-on:change="filteredAlternativeChannels">
               <option value="" disabled selected>select</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="filter" />
             <button class="profileeditbutton" v-on:click="showeditalternativechannel = false">undo</button>
           </form>
           <!--eslint-disable-next-line-->
@@ -163,12 +156,11 @@
         <div class="veryalerting" v-if="bothChannelsEqual===true">Mein Sender und Alternativ Sender müssen unterschiedlich sein!</div>
         <div v-show="showeditalternativechannel">
           <label>nach Ländern filtern</label>
-          <form class="displayinline" v-on:submit="filteredAlternativeChannels">
-            <select class="profileeditother" v-model="selectedcountryalternative">
+          <form class="displayinline">
+            <select class="profileeditother" v-model="selectedcountryalternative" v-on:change="filteredAlternativeChannels">
               <option value="" disabled selected>auswählen</option>
               <option v-for="country in countrylist" :key="country.id">{{country}}</option>
             </select>
-            <input class="profileeditbutton" type="submit" value="filtern" />
             <button class="profileeditbutton" v-on:click="showeditalternativechannel = false">zurück</button>
           </form>
           <!--eslint-disable-next-line-->

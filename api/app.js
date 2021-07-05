@@ -39,6 +39,7 @@ app.use(passport.session());
 // home route
 app.get("/", (req, res, next) => {
   res.send('hallo')
+  //res.sendFile(__dirname + '/dist/index.html')
 })
 
 // user authentifizierung/login/logout
